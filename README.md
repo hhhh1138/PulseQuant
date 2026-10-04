@@ -10,7 +10,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-4c1?style=flat-square" alt="License"></a>
 </p>
 
-PulseQuant is a post-training quantization method for video diffusion transformers.
+TLDR: PulseQuant is a post-training quantization method for video diffusion transformers.
 This repository provides W4A4 and W4A6 calibration and inference for Wan 2.1,
 Wan 2.2, MiniMax-H3, and Self Forcing.
 
