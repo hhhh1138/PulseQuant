@@ -34,7 +34,7 @@ codes along dominant activation directions to preserve model responses.
 ## Gallery
 
 MiniMax-H3 comparisons. Left to right: **Dense BF16**, **PulseQuant (Ours)**,
-**OrbitQuant**, and **ViDiT-Q**.
+**OrbitQuant**, and **ViDiT-Q**. See more qualitative comparisons on [our webpage](https://yutongwang1012.github.io/PulseQuant/).
 
 ### W4A4
 
