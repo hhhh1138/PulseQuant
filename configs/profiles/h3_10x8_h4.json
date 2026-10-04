@@ -1,0 +1,6100 @@
+{
+  "schema_version": 2,
+  "method": "pulseprofile",
+  "uses_evaluation_scores": false,
+  "calibration_source": "source-records/h3_10x8_h4/measurements.json",
+  "causal_run_count": 80,
+  "model_family": "MiniMax-H3",
+  "selected_blocks": [
+    0,
+    4,
+    9,
+    13,
+    17,
+    22,
+    26,
+    30,
+    35,
+    39
+  ],
+  "selected_anchors": [
+    0,
+    4,
+    7,
+    11,
+    15,
+    19,
+    22,
+    26
+  ],
+  "horizon": 4,
+  "risk_mode": "gain",
+  "risk": "anchor-normalized CVaR of four-step latent and temporal-change directional gain",
+  "motion_weight": 0.5,
+  "tail_fraction": 0.25,
+  "force_activation_bits": 4,
+  "pulse_quantizer": {
+    "scope": "all nn.Linear modules in the selected transformer block",
+    "weight": "uniform symmetric per-output-channel-group fake W4",
+    "activation": "uniform symmetric per-token-group fake A4",
+    "group_size": 128,
+    "pulse_duration_forwards": 1,
+    "continuation": "dense BF16"
+  },
+  "scheduler_alignment": {
+    "scheduler": "MiniMaxH3Scheduler",
+    "guidance": "guidance-distilled; one transformer forward per timestep",
+    "inference_steps_argument": 31,
+    "inference_calls": 30,
+    "calibration_steps_argument": 9,
+    "calibration_calls": 8,
+    "inference_timesteps": [
+      0.0,
+      0.0028653740882873535,
+      0.0059171319007873535,
+      0.009174346923828125,
+      0.012658298015594482,
+      0.01639336347579956,
+      0.020408153533935547,
+      0.02473503351211548,
+      0.029411733150482178,
+      0.03448277711868286,
+      0.04000002145767212,
+      0.046025097370147705,
+      0.05263155698776245,
+      0.05990779399871826,
+      0.06796115636825562,
+      0.07692307233810425,
+      0.08695650100708008,
+      0.0982658863067627,
+      0.11111116409301758,
+      0.12582778930664062,
+      0.14285719394683838,
+      0.1627907156944275,
+      0.18644064664840698,
+      0.2149532437324524,
+      0.2500000596046448,
+      0.29411768913269043,
+      0.3513513207435608,
+      0.4285714626312256,
+      0.5384615063667297,
+      0.707317054271698
+    ],
+    "calibration_timesteps": [
+      0.0,
+      0.011764705181121826,
+      0.027027010917663574,
+      0.0476190447807312,
+      0.07692307233810425,
+      0.12195122241973877,
+      0.19999998807907104,
+      0.3684210777282715
+    ],
+    "calibration_to_inference_indices": [
+      0,
+      4,
+      7,
+      11,
+      15,
+      19,
+      22,
+      26
+    ],
+    "policy": "log-risk interpolation in scheduler timestep coordinates"
+  },
+  "observed_block_risk": {
+    "0": 0.9596697308859654,
+    "4": 1.2160094994103132,
+    "9": 1.5602747828151315,
+    "13": 1.230641521684489,
+    "17": 1.2050047881727741,
+    "22": 1.3037184620647209,
+    "26": 1.3952226954127382,
+    "30": 1.3993649599150468,
+    "35": 1.32066198436467,
+    "39": 1.225296389283411
+  },
+  "interpolated_block_risk": {
+    "0": 0.746923610314302,
+    "1": 0.7968017661035278,
+    "2": 0.8466799218927537,
+    "3": 0.8965580776819795,
+    "4": 0.9464362334712052,
+    "5": 1.0000254757096183,
+    "6": 1.0536147179480313,
+    "7": 1.1072039601864443,
+    "8": 1.1607932024248573,
+    "9": 1.2143824446632705,
+    "10": 1.1502429658510973,
+    "11": 1.0861034870389243,
+    "12": 1.0219640082267514,
+    "13": 0.9578245294145784,
+    "14": 0.9528361774495858,
+    "15": 0.9478478254845932,
+    "16": 0.9428594735196005,
+    "17": 0.937871121554608,
+    "18": 0.9532371524541535,
+    "19": 0.9686031833536991,
+    "20": 0.9839692142532446,
+    "21": 0.9993352451527902,
+    "22": 1.0147012760523357,
+    "23": 1.0325060140084465,
+    "24": 1.0503107519645571,
+    "25": 1.0681154899206677,
+    "26": 1.0859202278767783,
+    "27": 1.0867262226522114,
+    "28": 1.0875322174276443,
+    "29": 1.0883382122030774,
+    "30": 1.0891442069785104,
+    "31": 1.0768930941740469,
+    "32": 1.0646419813695833,
+    "33": 1.0523908685651198,
+    "34": 1.0401397557606562,
+    "35": 1.0278886429561926,
+    "36": 1.00933256780727,
+    "37": 0.9907764926583472,
+    "38": 0.9722204175094245,
+    "39": 0.9536643423605016,
+    "40": 0.9536643423605016,
+    "41": 0.9536643423605016,
+    "42": 0.9536643423605016,
+    "43": 0.9536643423605016,
+    "44": 0.9536643423605016,
+    "45": 0.9536643423605016,
+    "46": 0.9536643423605016,
+    "47": 0.9536643423605016,
+    "48": 0.9536643423605016,
+    "49": 0.9536643423605016
+  },
+  "modules": [
+    {
+      "module": "proj_in",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "audio_proj_in",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "context_embedder",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "time_embedder.linear_1",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "time_embedder.linear_2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.0.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.0.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.0.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.0.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.0.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.0.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.1.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.1.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.1.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.1.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.1.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "token_refiner.refiner_blocks.1.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "transformer_blocks.0.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3558666647884385,
+        1.8882187686889755,
+        0.8964889915321559,
+        0.47529120141675685,
+        0.4610463733912806,
+        0.5749539660754301,
+        1.04522659510122,
+        1.3029074390057427
+      ],
+      "absolute_propagation_risk": 0.746923610314302
+    },
+    {
+      "module": "transformer_blocks.0.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3558666647884385,
+        1.8882187686889755,
+        0.8964889915321559,
+        0.47529120141675685,
+        0.4610463733912806,
+        0.5749539660754301,
+        1.04522659510122,
+        1.3029074390057427
+      ],
+      "absolute_propagation_risk": 0.746923610314302
+    },
+    {
+      "module": "transformer_blocks.0.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3558666647884385,
+        1.8882187686889755,
+        0.8964889915321559,
+        0.47529120141675685,
+        0.4610463733912806,
+        0.5749539660754301,
+        1.04522659510122,
+        1.3029074390057427
+      ],
+      "absolute_propagation_risk": 0.746923610314302
+    },
+    {
+      "module": "transformer_blocks.0.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3558666647884385,
+        1.8882187686889755,
+        0.8964889915321559,
+        0.47529120141675685,
+        0.4610463733912806,
+        0.5749539660754301,
+        1.04522659510122,
+        1.3029074390057427
+      ],
+      "absolute_propagation_risk": 0.746923610314302
+    },
+    {
+      "module": "transformer_blocks.0.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3558666647884385,
+        1.8882187686889755,
+        0.8964889915321559,
+        0.47529120141675685,
+        0.4610463733912806,
+        0.5749539660754301,
+        1.04522659510122,
+        1.3029074390057427
+      ],
+      "absolute_propagation_risk": 0.746923610314302
+    },
+    {
+      "module": "transformer_blocks.0.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3558666647884385,
+        1.8882187686889755,
+        0.8964889915321559,
+        0.47529120141675685,
+        0.4610463733912806,
+        0.5749539660754301,
+        1.04522659510122,
+        1.3029074390057427
+      ],
+      "absolute_propagation_risk": 0.746923610314302
+    },
+    {
+      "module": "transformer_blocks.0.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3558666647884385,
+        1.8882187686889755,
+        0.8964889915321559,
+        0.47529120141675685,
+        0.4610463733912806,
+        0.5749539660754301,
+        1.04522659510122,
+        1.3029074390057427
+      ],
+      "absolute_propagation_risk": 0.746923610314302
+    },
+    {
+      "module": "transformer_blocks.1.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2272778137055864,
+        1.776670006207248,
+        0.8024498719915862,
+        0.4688077364315437,
+        0.4821915371771567,
+        0.5950087951798648,
+        1.188340114736222,
+        1.4592541245707924
+      ],
+      "absolute_propagation_risk": 0.7968017661035278
+    },
+    {
+      "module": "transformer_blocks.1.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2272778137055864,
+        1.776670006207248,
+        0.8024498719915862,
+        0.4688077364315437,
+        0.4821915371771567,
+        0.5950087951798648,
+        1.188340114736222,
+        1.4592541245707924
+      ],
+      "absolute_propagation_risk": 0.7968017661035278
+    },
+    {
+      "module": "transformer_blocks.1.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2272778137055864,
+        1.776670006207248,
+        0.8024498719915862,
+        0.4688077364315437,
+        0.4821915371771567,
+        0.5950087951798648,
+        1.188340114736222,
+        1.4592541245707924
+      ],
+      "absolute_propagation_risk": 0.7968017661035278
+    },
+    {
+      "module": "transformer_blocks.1.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2272778137055864,
+        1.776670006207248,
+        0.8024498719915862,
+        0.4688077364315437,
+        0.4821915371771567,
+        0.5950087951798648,
+        1.188340114736222,
+        1.4592541245707924
+      ],
+      "absolute_propagation_risk": 0.7968017661035278
+    },
+    {
+      "module": "transformer_blocks.1.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2272778137055864,
+        1.776670006207248,
+        0.8024498719915862,
+        0.4688077364315437,
+        0.4821915371771567,
+        0.5950087951798648,
+        1.188340114736222,
+        1.4592541245707924
+      ],
+      "absolute_propagation_risk": 0.7968017661035278
+    },
+    {
+      "module": "transformer_blocks.1.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2272778137055864,
+        1.776670006207248,
+        0.8024498719915862,
+        0.4688077364315437,
+        0.4821915371771567,
+        0.5950087951798648,
+        1.188340114736222,
+        1.4592541245707924
+      ],
+      "absolute_propagation_risk": 0.7968017661035278
+    },
+    {
+      "module": "transformer_blocks.1.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2272778137055864,
+        1.776670006207248,
+        0.8024498719915862,
+        0.4688077364315437,
+        0.4821915371771567,
+        0.5950087951798648,
+        1.188340114736222,
+        1.4592541245707924
+      ],
+      "absolute_propagation_risk": 0.7968017661035278
+    },
+    {
+      "module": "transformer_blocks.2.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.098688962622734,
+        1.6651212437255207,
+        0.7084107524510164,
+        0.4623242714463307,
+        0.5033367009630328,
+        0.6150636242842994,
+        1.331453634371224,
+        1.6156008101358421
+      ],
+      "absolute_propagation_risk": 0.8466799218927537
+    },
+    {
+      "module": "transformer_blocks.2.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.098688962622734,
+        1.6651212437255207,
+        0.7084107524510164,
+        0.4623242714463307,
+        0.5033367009630328,
+        0.6150636242842994,
+        1.331453634371224,
+        1.6156008101358421
+      ],
+      "absolute_propagation_risk": 0.8466799218927537
+    },
+    {
+      "module": "transformer_blocks.2.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.098688962622734,
+        1.6651212437255207,
+        0.7084107524510164,
+        0.4623242714463307,
+        0.5033367009630328,
+        0.6150636242842994,
+        1.331453634371224,
+        1.6156008101358421
+      ],
+      "absolute_propagation_risk": 0.8466799218927537
+    },
+    {
+      "module": "transformer_blocks.2.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.098688962622734,
+        1.6651212437255207,
+        0.7084107524510164,
+        0.4623242714463307,
+        0.5033367009630328,
+        0.6150636242842994,
+        1.331453634371224,
+        1.6156008101358421
+      ],
+      "absolute_propagation_risk": 0.8466799218927537
+    },
+    {
+      "module": "transformer_blocks.2.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.098688962622734,
+        1.6651212437255207,
+        0.7084107524510164,
+        0.4623242714463307,
+        0.5033367009630328,
+        0.6150636242842994,
+        1.331453634371224,
+        1.6156008101358421
+      ],
+      "absolute_propagation_risk": 0.8466799218927537
+    },
+    {
+      "module": "transformer_blocks.2.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.098688962622734,
+        1.6651212437255207,
+        0.7084107524510164,
+        0.4623242714463307,
+        0.5033367009630328,
+        0.6150636242842994,
+        1.331453634371224,
+        1.6156008101358421
+      ],
+      "absolute_propagation_risk": 0.8466799218927537
+    },
+    {
+      "module": "transformer_blocks.2.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.098688962622734,
+        1.6651212437255207,
+        0.7084107524510164,
+        0.4623242714463307,
+        0.5033367009630328,
+        0.6150636242842994,
+        1.331453634371224,
+        1.6156008101358421
+      ],
+      "absolute_propagation_risk": 0.8466799218927537
+    },
+    {
+      "module": "transformer_blocks.3.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.970100111539882,
+        1.5535724812437932,
+        0.6143716329104467,
+        0.4558408064611177,
+        0.5244818647489089,
+        0.635118453388734,
+        1.474567154006226,
+        1.7719474957008918
+      ],
+      "absolute_propagation_risk": 0.8965580776819795
+    },
+    {
+      "module": "transformer_blocks.3.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.970100111539882,
+        1.5535724812437932,
+        0.6143716329104467,
+        0.4558408064611177,
+        0.5244818647489089,
+        0.635118453388734,
+        1.474567154006226,
+        1.7719474957008918
+      ],
+      "absolute_propagation_risk": 0.8965580776819795
+    },
+    {
+      "module": "transformer_blocks.3.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.970100111539882,
+        1.5535724812437932,
+        0.6143716329104467,
+        0.4558408064611177,
+        0.5244818647489089,
+        0.635118453388734,
+        1.474567154006226,
+        1.7719474957008918
+      ],
+      "absolute_propagation_risk": 0.8965580776819795
+    },
+    {
+      "module": "transformer_blocks.3.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.970100111539882,
+        1.5535724812437932,
+        0.6143716329104467,
+        0.4558408064611177,
+        0.5244818647489089,
+        0.635118453388734,
+        1.474567154006226,
+        1.7719474957008918
+      ],
+      "absolute_propagation_risk": 0.8965580776819795
+    },
+    {
+      "module": "transformer_blocks.3.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.970100111539882,
+        1.5535724812437932,
+        0.6143716329104467,
+        0.4558408064611177,
+        0.5244818647489089,
+        0.635118453388734,
+        1.474567154006226,
+        1.7719474957008918
+      ],
+      "absolute_propagation_risk": 0.8965580776819795
+    },
+    {
+      "module": "transformer_blocks.3.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.970100111539882,
+        1.5535724812437932,
+        0.6143716329104467,
+        0.4558408064611177,
+        0.5244818647489089,
+        0.635118453388734,
+        1.474567154006226,
+        1.7719474957008918
+      ],
+      "absolute_propagation_risk": 0.8965580776819795
+    },
+    {
+      "module": "transformer_blocks.3.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.970100111539882,
+        1.5535724812437932,
+        0.6143716329104467,
+        0.4558408064611177,
+        0.5244818647489089,
+        0.635118453388734,
+        1.474567154006226,
+        1.7719474957008918
+      ],
+      "absolute_propagation_risk": 0.8965580776819795
+    },
+    {
+      "module": "transformer_blocks.4.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8415112604570298,
+        1.4420237187620657,
+        0.520332513369877,
+        0.44935734147590456,
+        0.5456270285347851,
+        0.6551732824931686,
+        1.617680673641228,
+        1.9282941812659415
+      ],
+      "absolute_propagation_risk": 0.9464362334712052
+    },
+    {
+      "module": "transformer_blocks.4.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8415112604570298,
+        1.4420237187620657,
+        0.520332513369877,
+        0.44935734147590456,
+        0.5456270285347851,
+        0.6551732824931686,
+        1.617680673641228,
+        1.9282941812659415
+      ],
+      "absolute_propagation_risk": 0.9464362334712052
+    },
+    {
+      "module": "transformer_blocks.4.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8415112604570298,
+        1.4420237187620657,
+        0.520332513369877,
+        0.44935734147590456,
+        0.5456270285347851,
+        0.6551732824931686,
+        1.617680673641228,
+        1.9282941812659415
+      ],
+      "absolute_propagation_risk": 0.9464362334712052
+    },
+    {
+      "module": "transformer_blocks.4.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8415112604570298,
+        1.4420237187620657,
+        0.520332513369877,
+        0.44935734147590456,
+        0.5456270285347851,
+        0.6551732824931686,
+        1.617680673641228,
+        1.9282941812659415
+      ],
+      "absolute_propagation_risk": 0.9464362334712052
+    },
+    {
+      "module": "transformer_blocks.4.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8415112604570298,
+        1.4420237187620657,
+        0.520332513369877,
+        0.44935734147590456,
+        0.5456270285347851,
+        0.6551732824931686,
+        1.617680673641228,
+        1.9282941812659415
+      ],
+      "absolute_propagation_risk": 0.9464362334712052
+    },
+    {
+      "module": "transformer_blocks.4.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8415112604570298,
+        1.4420237187620657,
+        0.520332513369877,
+        0.44935734147590456,
+        0.5456270285347851,
+        0.6551732824931686,
+        1.617680673641228,
+        1.9282941812659415
+      ],
+      "absolute_propagation_risk": 0.9464362334712052
+    },
+    {
+      "module": "transformer_blocks.4.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8415112604570298,
+        1.4420237187620657,
+        0.520332513369877,
+        0.44935734147590456,
+        0.5456270285347851,
+        0.6551732824931686,
+        1.617680673641228,
+        1.9282941812659415
+      ],
+      "absolute_propagation_risk": 0.9464362334712052
+    },
+    {
+      "module": "transformer_blocks.5.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.821704903935654,
+        1.4531191505382743,
+        0.6167678119655517,
+        0.4278547422890851,
+        0.5120584747884205,
+        0.6212761505558373,
+        1.5779326766596122,
+        1.9692860892675654
+      ],
+      "absolute_propagation_risk": 1.0000254757096183
+    },
+    {
+      "module": "transformer_blocks.5.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.821704903935654,
+        1.4531191505382743,
+        0.6167678119655517,
+        0.4278547422890851,
+        0.5120584747884205,
+        0.6212761505558373,
+        1.5779326766596122,
+        1.9692860892675654
+      ],
+      "absolute_propagation_risk": 1.0000254757096183
+    },
+    {
+      "module": "transformer_blocks.5.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.821704903935654,
+        1.4531191505382743,
+        0.6167678119655517,
+        0.4278547422890851,
+        0.5120584747884205,
+        0.6212761505558373,
+        1.5779326766596122,
+        1.9692860892675654
+      ],
+      "absolute_propagation_risk": 1.0000254757096183
+    },
+    {
+      "module": "transformer_blocks.5.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.821704903935654,
+        1.4531191505382743,
+        0.6167678119655517,
+        0.4278547422890851,
+        0.5120584747884205,
+        0.6212761505558373,
+        1.5779326766596122,
+        1.9692860892675654
+      ],
+      "absolute_propagation_risk": 1.0000254757096183
+    },
+    {
+      "module": "transformer_blocks.5.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.821704903935654,
+        1.4531191505382743,
+        0.6167678119655517,
+        0.4278547422890851,
+        0.5120584747884205,
+        0.6212761505558373,
+        1.5779326766596122,
+        1.9692860892675654
+      ],
+      "absolute_propagation_risk": 1.0000254757096183
+    },
+    {
+      "module": "transformer_blocks.5.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.821704903935654,
+        1.4531191505382743,
+        0.6167678119655517,
+        0.4278547422890851,
+        0.5120584747884205,
+        0.6212761505558373,
+        1.5779326766596122,
+        1.9692860892675654
+      ],
+      "absolute_propagation_risk": 1.0000254757096183
+    },
+    {
+      "module": "transformer_blocks.5.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.821704903935654,
+        1.4531191505382743,
+        0.6167678119655517,
+        0.4278547422890851,
+        0.5120584747884205,
+        0.6212761505558373,
+        1.5779326766596122,
+        1.9692860892675654
+      ],
+      "absolute_propagation_risk": 1.0000254757096183
+    },
+    {
+      "module": "transformer_blocks.6.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8018985474142781,
+        1.4642145823144825,
+        0.7132031105612266,
+        0.40635214310226564,
+        0.4784899210420558,
+        0.5873790186185059,
+        1.5381846796779963,
+        2.0102779972691893
+      ],
+      "absolute_propagation_risk": 1.0536147179480313
+    },
+    {
+      "module": "transformer_blocks.6.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8018985474142781,
+        1.4642145823144825,
+        0.7132031105612266,
+        0.40635214310226564,
+        0.4784899210420558,
+        0.5873790186185059,
+        1.5381846796779963,
+        2.0102779972691893
+      ],
+      "absolute_propagation_risk": 1.0536147179480313
+    },
+    {
+      "module": "transformer_blocks.6.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8018985474142781,
+        1.4642145823144825,
+        0.7132031105612266,
+        0.40635214310226564,
+        0.4784899210420558,
+        0.5873790186185059,
+        1.5381846796779963,
+        2.0102779972691893
+      ],
+      "absolute_propagation_risk": 1.0536147179480313
+    },
+    {
+      "module": "transformer_blocks.6.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8018985474142781,
+        1.4642145823144825,
+        0.7132031105612266,
+        0.40635214310226564,
+        0.4784899210420558,
+        0.5873790186185059,
+        1.5381846796779963,
+        2.0102779972691893
+      ],
+      "absolute_propagation_risk": 1.0536147179480313
+    },
+    {
+      "module": "transformer_blocks.6.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8018985474142781,
+        1.4642145823144825,
+        0.7132031105612266,
+        0.40635214310226564,
+        0.4784899210420558,
+        0.5873790186185059,
+        1.5381846796779963,
+        2.0102779972691893
+      ],
+      "absolute_propagation_risk": 1.0536147179480313
+    },
+    {
+      "module": "transformer_blocks.6.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8018985474142781,
+        1.4642145823144825,
+        0.7132031105612266,
+        0.40635214310226564,
+        0.4784899210420558,
+        0.5873790186185059,
+        1.5381846796779963,
+        2.0102779972691893
+      ],
+      "absolute_propagation_risk": 1.0536147179480313
+    },
+    {
+      "module": "transformer_blocks.6.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8018985474142781,
+        1.4642145823144825,
+        0.7132031105612266,
+        0.40635214310226564,
+        0.4784899210420558,
+        0.5873790186185059,
+        1.5381846796779963,
+        2.0102779972691893
+      ],
+      "absolute_propagation_risk": 1.0536147179480313
+    },
+    {
+      "module": "transformer_blocks.7.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7820921908929022,
+        1.4753100140906912,
+        0.8096384091569014,
+        0.3848495439154461,
+        0.4449213672956912,
+        0.5534818866811746,
+        1.4984366826963806,
+        2.051269905270813
+      ],
+      "absolute_propagation_risk": 1.1072039601864443
+    },
+    {
+      "module": "transformer_blocks.7.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7820921908929022,
+        1.4753100140906912,
+        0.8096384091569014,
+        0.3848495439154461,
+        0.4449213672956912,
+        0.5534818866811746,
+        1.4984366826963806,
+        2.051269905270813
+      ],
+      "absolute_propagation_risk": 1.1072039601864443
+    },
+    {
+      "module": "transformer_blocks.7.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7820921908929022,
+        1.4753100140906912,
+        0.8096384091569014,
+        0.3848495439154461,
+        0.4449213672956912,
+        0.5534818866811746,
+        1.4984366826963806,
+        2.051269905270813
+      ],
+      "absolute_propagation_risk": 1.1072039601864443
+    },
+    {
+      "module": "transformer_blocks.7.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7820921908929022,
+        1.4753100140906912,
+        0.8096384091569014,
+        0.3848495439154461,
+        0.4449213672956912,
+        0.5534818866811746,
+        1.4984366826963806,
+        2.051269905270813
+      ],
+      "absolute_propagation_risk": 1.1072039601864443
+    },
+    {
+      "module": "transformer_blocks.7.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7820921908929022,
+        1.4753100140906912,
+        0.8096384091569014,
+        0.3848495439154461,
+        0.4449213672956912,
+        0.5534818866811746,
+        1.4984366826963806,
+        2.051269905270813
+      ],
+      "absolute_propagation_risk": 1.1072039601864443
+    },
+    {
+      "module": "transformer_blocks.7.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7820921908929022,
+        1.4753100140906912,
+        0.8096384091569014,
+        0.3848495439154461,
+        0.4449213672956912,
+        0.5534818866811746,
+        1.4984366826963806,
+        2.051269905270813
+      ],
+      "absolute_propagation_risk": 1.1072039601864443
+    },
+    {
+      "module": "transformer_blocks.7.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7820921908929022,
+        1.4753100140906912,
+        0.8096384091569014,
+        0.3848495439154461,
+        0.4449213672956912,
+        0.5534818866811746,
+        1.4984366826963806,
+        2.051269905270813
+      ],
+      "absolute_propagation_risk": 1.1072039601864443
+    },
+    {
+      "module": "transformer_blocks.8.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7622858343715263,
+        1.4864054458668996,
+        0.9060737077525762,
+        0.36334694472862666,
+        0.41135281354932657,
+        0.5195847547438431,
+        1.4586886857147645,
+        2.092261813272437
+      ],
+      "absolute_propagation_risk": 1.1607932024248573
+    },
+    {
+      "module": "transformer_blocks.8.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7622858343715263,
+        1.4864054458668996,
+        0.9060737077525762,
+        0.36334694472862666,
+        0.41135281354932657,
+        0.5195847547438431,
+        1.4586886857147645,
+        2.092261813272437
+      ],
+      "absolute_propagation_risk": 1.1607932024248573
+    },
+    {
+      "module": "transformer_blocks.8.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7622858343715263,
+        1.4864054458668996,
+        0.9060737077525762,
+        0.36334694472862666,
+        0.41135281354932657,
+        0.5195847547438431,
+        1.4586886857147645,
+        2.092261813272437
+      ],
+      "absolute_propagation_risk": 1.1607932024248573
+    },
+    {
+      "module": "transformer_blocks.8.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7622858343715263,
+        1.4864054458668996,
+        0.9060737077525762,
+        0.36334694472862666,
+        0.41135281354932657,
+        0.5195847547438431,
+        1.4586886857147645,
+        2.092261813272437
+      ],
+      "absolute_propagation_risk": 1.1607932024248573
+    },
+    {
+      "module": "transformer_blocks.8.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7622858343715263,
+        1.4864054458668996,
+        0.9060737077525762,
+        0.36334694472862666,
+        0.41135281354932657,
+        0.5195847547438431,
+        1.4586886857147645,
+        2.092261813272437
+      ],
+      "absolute_propagation_risk": 1.1607932024248573
+    },
+    {
+      "module": "transformer_blocks.8.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7622858343715263,
+        1.4864054458668996,
+        0.9060737077525762,
+        0.36334694472862666,
+        0.41135281354932657,
+        0.5195847547438431,
+        1.4586886857147645,
+        2.092261813272437
+      ],
+      "absolute_propagation_risk": 1.1607932024248573
+    },
+    {
+      "module": "transformer_blocks.8.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7622858343715263,
+        1.4864054458668996,
+        0.9060737077525762,
+        0.36334694472862666,
+        0.41135281354932657,
+        0.5195847547438431,
+        1.4586886857147645,
+        2.092261813272437
+      ],
+      "absolute_propagation_risk": 1.1607932024248573
+    },
+    {
+      "module": "transformer_blocks.9.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7424794778501504,
+        1.497500877643108,
+        1.0025090063482511,
+        0.3418443455418072,
+        0.37778425980296193,
+        0.48568762280651184,
+        1.4189406887331488,
+        2.1332537212740608
+      ],
+      "absolute_propagation_risk": 1.2143824446632705
+    },
+    {
+      "module": "transformer_blocks.9.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7424794778501504,
+        1.497500877643108,
+        1.0025090063482511,
+        0.3418443455418072,
+        0.37778425980296193,
+        0.48568762280651184,
+        1.4189406887331488,
+        2.1332537212740608
+      ],
+      "absolute_propagation_risk": 1.2143824446632705
+    },
+    {
+      "module": "transformer_blocks.9.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7424794778501504,
+        1.497500877643108,
+        1.0025090063482511,
+        0.3418443455418072,
+        0.37778425980296193,
+        0.48568762280651184,
+        1.4189406887331488,
+        2.1332537212740608
+      ],
+      "absolute_propagation_risk": 1.2143824446632705
+    },
+    {
+      "module": "transformer_blocks.9.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7424794778501504,
+        1.497500877643108,
+        1.0025090063482511,
+        0.3418443455418072,
+        0.37778425980296193,
+        0.48568762280651184,
+        1.4189406887331488,
+        2.1332537212740608
+      ],
+      "absolute_propagation_risk": 1.2143824446632705
+    },
+    {
+      "module": "transformer_blocks.9.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7424794778501504,
+        1.497500877643108,
+        1.0025090063482511,
+        0.3418443455418072,
+        0.37778425980296193,
+        0.48568762280651184,
+        1.4189406887331488,
+        2.1332537212740608
+      ],
+      "absolute_propagation_risk": 1.2143824446632705
+    },
+    {
+      "module": "transformer_blocks.9.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7424794778501504,
+        1.497500877643108,
+        1.0025090063482511,
+        0.3418443455418072,
+        0.37778425980296193,
+        0.48568762280651184,
+        1.4189406887331488,
+        2.1332537212740608
+      ],
+      "absolute_propagation_risk": 1.2143824446632705
+    },
+    {
+      "module": "transformer_blocks.9.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7424794778501504,
+        1.497500877643108,
+        1.0025090063482511,
+        0.3418443455418072,
+        0.37778425980296193,
+        0.48568762280651184,
+        1.4189406887331488,
+        2.1332537212740608
+      ],
+      "absolute_propagation_risk": 1.2143824446632705
+    },
+    {
+      "module": "transformer_blocks.10.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7947155951177696,
+        1.542950851632837,
+        0.9321159582046907,
+        0.3660256366133265,
+        0.4000506817704679,
+        0.5153316316023185,
+        1.4379432396887146,
+        2.0108664053698755
+      ],
+      "absolute_propagation_risk": 1.1502429658510973
+    },
+    {
+      "module": "transformer_blocks.10.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7947155951177696,
+        1.542950851632837,
+        0.9321159582046907,
+        0.3660256366133265,
+        0.4000506817704679,
+        0.5153316316023185,
+        1.4379432396887146,
+        2.0108664053698755
+      ],
+      "absolute_propagation_risk": 1.1502429658510973
+    },
+    {
+      "module": "transformer_blocks.10.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7947155951177696,
+        1.542950851632837,
+        0.9321159582046907,
+        0.3660256366133265,
+        0.4000506817704679,
+        0.5153316316023185,
+        1.4379432396887146,
+        2.0108664053698755
+      ],
+      "absolute_propagation_risk": 1.1502429658510973
+    },
+    {
+      "module": "transformer_blocks.10.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7947155951177696,
+        1.542950851632837,
+        0.9321159582046907,
+        0.3660256366133265,
+        0.4000506817704679,
+        0.5153316316023185,
+        1.4379432396887146,
+        2.0108664053698755
+      ],
+      "absolute_propagation_risk": 1.1502429658510973
+    },
+    {
+      "module": "transformer_blocks.10.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7947155951177696,
+        1.542950851632837,
+        0.9321159582046907,
+        0.3660256366133265,
+        0.4000506817704679,
+        0.5153316316023185,
+        1.4379432396887146,
+        2.0108664053698755
+      ],
+      "absolute_propagation_risk": 1.1502429658510973
+    },
+    {
+      "module": "transformer_blocks.10.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7947155951177696,
+        1.542950851632837,
+        0.9321159582046907,
+        0.3660256366133265,
+        0.4000506817704679,
+        0.5153316316023185,
+        1.4379432396887146,
+        2.0108664053698755
+      ],
+      "absolute_propagation_risk": 1.1502429658510973
+    },
+    {
+      "module": "transformer_blocks.10.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.7947155951177696,
+        1.542950851632837,
+        0.9321159582046907,
+        0.3660256366133265,
+        0.4000506817704679,
+        0.5153316316023185,
+        1.4379432396887146,
+        2.0108664053698755
+      ],
+      "absolute_propagation_risk": 1.1502429658510973
+    },
+    {
+      "module": "transformer_blocks.11.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8469517123853887,
+        1.5884008256225657,
+        0.8617229100611303,
+        0.3902069276848458,
+        0.4223171037379738,
+        0.5449756403981252,
+        1.4569457906442804,
+        1.8884790894656907
+      ],
+      "absolute_propagation_risk": 1.0861034870389243
+    },
+    {
+      "module": "transformer_blocks.11.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8469517123853887,
+        1.5884008256225657,
+        0.8617229100611303,
+        0.3902069276848458,
+        0.4223171037379738,
+        0.5449756403981252,
+        1.4569457906442804,
+        1.8884790894656907
+      ],
+      "absolute_propagation_risk": 1.0861034870389243
+    },
+    {
+      "module": "transformer_blocks.11.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8469517123853887,
+        1.5884008256225657,
+        0.8617229100611303,
+        0.3902069276848458,
+        0.4223171037379738,
+        0.5449756403981252,
+        1.4569457906442804,
+        1.8884790894656907
+      ],
+      "absolute_propagation_risk": 1.0861034870389243
+    },
+    {
+      "module": "transformer_blocks.11.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8469517123853887,
+        1.5884008256225657,
+        0.8617229100611303,
+        0.3902069276848458,
+        0.4223171037379738,
+        0.5449756403981252,
+        1.4569457906442804,
+        1.8884790894656907
+      ],
+      "absolute_propagation_risk": 1.0861034870389243
+    },
+    {
+      "module": "transformer_blocks.11.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8469517123853887,
+        1.5884008256225657,
+        0.8617229100611303,
+        0.3902069276848458,
+        0.4223171037379738,
+        0.5449756403981252,
+        1.4569457906442804,
+        1.8884790894656907
+      ],
+      "absolute_propagation_risk": 1.0861034870389243
+    },
+    {
+      "module": "transformer_blocks.11.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8469517123853887,
+        1.5884008256225657,
+        0.8617229100611303,
+        0.3902069276848458,
+        0.4223171037379738,
+        0.5449756403981252,
+        1.4569457906442804,
+        1.8884790894656907
+      ],
+      "absolute_propagation_risk": 1.0861034870389243
+    },
+    {
+      "module": "transformer_blocks.11.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8469517123853887,
+        1.5884008256225657,
+        0.8617229100611303,
+        0.3902069276848458,
+        0.4223171037379738,
+        0.5449756403981252,
+        1.4569457906442804,
+        1.8884790894656907
+      ],
+      "absolute_propagation_risk": 1.0861034870389243
+    },
+    {
+      "module": "transformer_blocks.12.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8991878296530077,
+        1.6338507996122946,
+        0.79132986191757,
+        0.4143882187563651,
+        0.4445835257054797,
+        0.5746196491939318,
+        1.475948341599846,
+        1.7660917735615056
+      ],
+      "absolute_propagation_risk": 1.0219640082267514
+    },
+    {
+      "module": "transformer_blocks.12.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8991878296530077,
+        1.6338507996122946,
+        0.79132986191757,
+        0.4143882187563651,
+        0.4445835257054797,
+        0.5746196491939318,
+        1.475948341599846,
+        1.7660917735615056
+      ],
+      "absolute_propagation_risk": 1.0219640082267514
+    },
+    {
+      "module": "transformer_blocks.12.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8991878296530077,
+        1.6338507996122946,
+        0.79132986191757,
+        0.4143882187563651,
+        0.4445835257054797,
+        0.5746196491939318,
+        1.475948341599846,
+        1.7660917735615056
+      ],
+      "absolute_propagation_risk": 1.0219640082267514
+    },
+    {
+      "module": "transformer_blocks.12.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8991878296530077,
+        1.6338507996122946,
+        0.79132986191757,
+        0.4143882187563651,
+        0.4445835257054797,
+        0.5746196491939318,
+        1.475948341599846,
+        1.7660917735615056
+      ],
+      "absolute_propagation_risk": 1.0219640082267514
+    },
+    {
+      "module": "transformer_blocks.12.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8991878296530077,
+        1.6338507996122946,
+        0.79132986191757,
+        0.4143882187563651,
+        0.4445835257054797,
+        0.5746196491939318,
+        1.475948341599846,
+        1.7660917735615056
+      ],
+      "absolute_propagation_risk": 1.0219640082267514
+    },
+    {
+      "module": "transformer_blocks.12.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8991878296530077,
+        1.6338507996122946,
+        0.79132986191757,
+        0.4143882187563651,
+        0.4445835257054797,
+        0.5746196491939318,
+        1.475948341599846,
+        1.7660917735615056
+      ],
+      "absolute_propagation_risk": 1.0219640082267514
+    },
+    {
+      "module": "transformer_blocks.12.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.8991878296530077,
+        1.6338507996122946,
+        0.79132986191757,
+        0.4143882187563651,
+        0.4445835257054797,
+        0.5746196491939318,
+        1.475948341599846,
+        1.7660917735615056
+      ],
+      "absolute_propagation_risk": 1.0219640082267514
+    },
+    {
+      "module": "transformer_blocks.13.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.9514239469206268,
+        1.6793007736020233,
+        0.7209368137740096,
+        0.4385695098278844,
+        0.46684994767298565,
+        0.6042636579897386,
+        1.4949508925554118,
+        1.6437044576573205
+      ],
+      "absolute_propagation_risk": 0.9578245294145784
+    },
+    {
+      "module": "transformer_blocks.13.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.9514239469206268,
+        1.6793007736020233,
+        0.7209368137740096,
+        0.4385695098278844,
+        0.46684994767298565,
+        0.6042636579897386,
+        1.4949508925554118,
+        1.6437044576573205
+      ],
+      "absolute_propagation_risk": 0.9578245294145784
+    },
+    {
+      "module": "transformer_blocks.13.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.9514239469206268,
+        1.6793007736020233,
+        0.7209368137740096,
+        0.4385695098278844,
+        0.46684994767298565,
+        0.6042636579897386,
+        1.4949508925554118,
+        1.6437044576573205
+      ],
+      "absolute_propagation_risk": 0.9578245294145784
+    },
+    {
+      "module": "transformer_blocks.13.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.9514239469206268,
+        1.6793007736020233,
+        0.7209368137740096,
+        0.4385695098278844,
+        0.46684994767298565,
+        0.6042636579897386,
+        1.4949508925554118,
+        1.6437044576573205
+      ],
+      "absolute_propagation_risk": 0.9578245294145784
+    },
+    {
+      "module": "transformer_blocks.13.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.9514239469206268,
+        1.6793007736020233,
+        0.7209368137740096,
+        0.4385695098278844,
+        0.46684994767298565,
+        0.6042636579897386,
+        1.4949508925554118,
+        1.6437044576573205
+      ],
+      "absolute_propagation_risk": 0.9578245294145784
+    },
+    {
+      "module": "transformer_blocks.13.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.9514239469206268,
+        1.6793007736020233,
+        0.7209368137740096,
+        0.4385695098278844,
+        0.46684994767298565,
+        0.6042636579897386,
+        1.4949508925554118,
+        1.6437044576573205
+      ],
+      "absolute_propagation_risk": 0.9578245294145784
+    },
+    {
+      "module": "transformer_blocks.13.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        0.9514239469206268,
+        1.6793007736020233,
+        0.7209368137740096,
+        0.4385695098278844,
+        0.46684994767298565,
+        0.6042636579897386,
+        1.4949508925554118,
+        1.6437044576573205
+      ],
+      "absolute_propagation_risk": 0.9578245294145784
+    },
+    {
+      "module": "transformer_blocks.14.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0368825558014119,
+        1.6672215953857479,
+        0.7576363778590235,
+        0.43818504824278703,
+        0.45481557917610693,
+        0.5877872458607207,
+        1.4290567732534294,
+        1.6284148244207732
+      ],
+      "absolute_propagation_risk": 0.9528361774495858
+    },
+    {
+      "module": "transformer_blocks.14.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0368825558014119,
+        1.6672215953857479,
+        0.7576363778590235,
+        0.43818504824278703,
+        0.45481557917610693,
+        0.5877872458607207,
+        1.4290567732534294,
+        1.6284148244207732
+      ],
+      "absolute_propagation_risk": 0.9528361774495858
+    },
+    {
+      "module": "transformer_blocks.14.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0368825558014119,
+        1.6672215953857479,
+        0.7576363778590235,
+        0.43818504824278703,
+        0.45481557917610693,
+        0.5877872458607207,
+        1.4290567732534294,
+        1.6284148244207732
+      ],
+      "absolute_propagation_risk": 0.9528361774495858
+    },
+    {
+      "module": "transformer_blocks.14.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0368825558014119,
+        1.6672215953857479,
+        0.7576363778590235,
+        0.43818504824278703,
+        0.45481557917610693,
+        0.5877872458607207,
+        1.4290567732534294,
+        1.6284148244207732
+      ],
+      "absolute_propagation_risk": 0.9528361774495858
+    },
+    {
+      "module": "transformer_blocks.14.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0368825558014119,
+        1.6672215953857479,
+        0.7576363778590235,
+        0.43818504824278703,
+        0.45481557917610693,
+        0.5877872458607207,
+        1.4290567732534294,
+        1.6284148244207732
+      ],
+      "absolute_propagation_risk": 0.9528361774495858
+    },
+    {
+      "module": "transformer_blocks.14.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0368825558014119,
+        1.6672215953857479,
+        0.7576363778590235,
+        0.43818504824278703,
+        0.45481557917610693,
+        0.5877872458607207,
+        1.4290567732534294,
+        1.6284148244207732
+      ],
+      "absolute_propagation_risk": 0.9528361774495858
+    },
+    {
+      "module": "transformer_blocks.14.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0368825558014119,
+        1.6672215953857479,
+        0.7576363778590235,
+        0.43818504824278703,
+        0.45481557917610693,
+        0.5877872458607207,
+        1.4290567732534294,
+        1.6284148244207732
+      ],
+      "absolute_propagation_risk": 0.9528361774495858
+    },
+    {
+      "module": "transformer_blocks.15.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1223411646821972,
+        1.6551424171694724,
+        0.7943359419440372,
+        0.4378005866576896,
+        0.44278121067922827,
+        0.5713108337317029,
+        1.363162653951447,
+        1.6131251911842261
+      ],
+      "absolute_propagation_risk": 0.9478478254845932
+    },
+    {
+      "module": "transformer_blocks.15.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1223411646821972,
+        1.6551424171694724,
+        0.7943359419440372,
+        0.4378005866576896,
+        0.44278121067922827,
+        0.5713108337317029,
+        1.363162653951447,
+        1.6131251911842261
+      ],
+      "absolute_propagation_risk": 0.9478478254845932
+    },
+    {
+      "module": "transformer_blocks.15.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1223411646821972,
+        1.6551424171694724,
+        0.7943359419440372,
+        0.4378005866576896,
+        0.44278121067922827,
+        0.5713108337317029,
+        1.363162653951447,
+        1.6131251911842261
+      ],
+      "absolute_propagation_risk": 0.9478478254845932
+    },
+    {
+      "module": "transformer_blocks.15.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1223411646821972,
+        1.6551424171694724,
+        0.7943359419440372,
+        0.4378005866576896,
+        0.44278121067922827,
+        0.5713108337317029,
+        1.363162653951447,
+        1.6131251911842261
+      ],
+      "absolute_propagation_risk": 0.9478478254845932
+    },
+    {
+      "module": "transformer_blocks.15.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1223411646821972,
+        1.6551424171694724,
+        0.7943359419440372,
+        0.4378005866576896,
+        0.44278121067922827,
+        0.5713108337317029,
+        1.363162653951447,
+        1.6131251911842261
+      ],
+      "absolute_propagation_risk": 0.9478478254845932
+    },
+    {
+      "module": "transformer_blocks.15.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1223411646821972,
+        1.6551424171694724,
+        0.7943359419440372,
+        0.4378005866576896,
+        0.44278121067922827,
+        0.5713108337317029,
+        1.363162653951447,
+        1.6131251911842261
+      ],
+      "absolute_propagation_risk": 0.9478478254845932
+    },
+    {
+      "module": "transformer_blocks.15.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1223411646821972,
+        1.6551424171694724,
+        0.7943359419440372,
+        0.4378005866576896,
+        0.44278121067922827,
+        0.5713108337317029,
+        1.363162653951447,
+        1.6131251911842261
+      ],
+      "absolute_propagation_risk": 0.9478478254845932
+    },
+    {
+      "module": "transformer_blocks.16.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2077997735629824,
+        1.643063238953197,
+        0.831035506029051,
+        0.43741612507259214,
+        0.4307468421823496,
+        0.554834421602685,
+        1.2972685346494646,
+        1.5978355579476788
+      ],
+      "absolute_propagation_risk": 0.9428594735196005
+    },
+    {
+      "module": "transformer_blocks.16.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2077997735629824,
+        1.643063238953197,
+        0.831035506029051,
+        0.43741612507259214,
+        0.4307468421823496,
+        0.554834421602685,
+        1.2972685346494646,
+        1.5978355579476788
+      ],
+      "absolute_propagation_risk": 0.9428594735196005
+    },
+    {
+      "module": "transformer_blocks.16.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2077997735629824,
+        1.643063238953197,
+        0.831035506029051,
+        0.43741612507259214,
+        0.4307468421823496,
+        0.554834421602685,
+        1.2972685346494646,
+        1.5978355579476788
+      ],
+      "absolute_propagation_risk": 0.9428594735196005
+    },
+    {
+      "module": "transformer_blocks.16.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2077997735629824,
+        1.643063238953197,
+        0.831035506029051,
+        0.43741612507259214,
+        0.4307468421823496,
+        0.554834421602685,
+        1.2972685346494646,
+        1.5978355579476788
+      ],
+      "absolute_propagation_risk": 0.9428594735196005
+    },
+    {
+      "module": "transformer_blocks.16.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2077997735629824,
+        1.643063238953197,
+        0.831035506029051,
+        0.43741612507259214,
+        0.4307468421823496,
+        0.554834421602685,
+        1.2972685346494646,
+        1.5978355579476788
+      ],
+      "absolute_propagation_risk": 0.9428594735196005
+    },
+    {
+      "module": "transformer_blocks.16.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2077997735629824,
+        1.643063238953197,
+        0.831035506029051,
+        0.43741612507259214,
+        0.4307468421823496,
+        0.554834421602685,
+        1.2972685346494646,
+        1.5978355579476788
+      ],
+      "absolute_propagation_risk": 0.9428594735196005
+    },
+    {
+      "module": "transformer_blocks.16.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2077997735629824,
+        1.643063238953197,
+        0.831035506029051,
+        0.43741612507259214,
+        0.4307468421823496,
+        0.554834421602685,
+        1.2972685346494646,
+        1.5978355579476788
+      ],
+      "absolute_propagation_risk": 0.9428594735196005
+    },
+    {
+      "module": "transformer_blocks.17.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2932583824437676,
+        1.6309840607369213,
+        0.8677350701140648,
+        0.4370316634874948,
+        0.41871247368547093,
+        0.5383580094736672,
+        1.2313744153474822,
+        1.5825459247111318
+      ],
+      "absolute_propagation_risk": 0.937871121554608
+    },
+    {
+      "module": "transformer_blocks.17.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2932583824437676,
+        1.6309840607369213,
+        0.8677350701140648,
+        0.4370316634874948,
+        0.41871247368547093,
+        0.5383580094736672,
+        1.2313744153474822,
+        1.5825459247111318
+      ],
+      "absolute_propagation_risk": 0.937871121554608
+    },
+    {
+      "module": "transformer_blocks.17.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2932583824437676,
+        1.6309840607369213,
+        0.8677350701140648,
+        0.4370316634874948,
+        0.41871247368547093,
+        0.5383580094736672,
+        1.2313744153474822,
+        1.5825459247111318
+      ],
+      "absolute_propagation_risk": 0.937871121554608
+    },
+    {
+      "module": "transformer_blocks.17.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2932583824437676,
+        1.6309840607369213,
+        0.8677350701140648,
+        0.4370316634874948,
+        0.41871247368547093,
+        0.5383580094736672,
+        1.2313744153474822,
+        1.5825459247111318
+      ],
+      "absolute_propagation_risk": 0.937871121554608
+    },
+    {
+      "module": "transformer_blocks.17.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2932583824437676,
+        1.6309840607369213,
+        0.8677350701140648,
+        0.4370316634874948,
+        0.41871247368547093,
+        0.5383580094736672,
+        1.2313744153474822,
+        1.5825459247111318
+      ],
+      "absolute_propagation_risk": 0.937871121554608
+    },
+    {
+      "module": "transformer_blocks.17.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2932583824437676,
+        1.6309840607369213,
+        0.8677350701140648,
+        0.4370316634874948,
+        0.41871247368547093,
+        0.5383580094736672,
+        1.2313744153474822,
+        1.5825459247111318
+      ],
+      "absolute_propagation_risk": 0.937871121554608
+    },
+    {
+      "module": "transformer_blocks.17.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2932583824437676,
+        1.6309840607369213,
+        0.8677350701140648,
+        0.4370316634874948,
+        0.41871247368547093,
+        0.5383580094736672,
+        1.2313744153474822,
+        1.5825459247111318
+      ],
+      "absolute_propagation_risk": 0.937871121554608
+    },
+    {
+      "module": "transformer_blocks.18.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.253257649450074,
+        1.458429841241264,
+        0.9117175675422072,
+        0.4316122132324558,
+        0.4265464988158148,
+        0.5545545081241756,
+        1.3383159049969051,
+        1.6255658165971043
+      ],
+      "absolute_propagation_risk": 0.9532371524541535
+    },
+    {
+      "module": "transformer_blocks.18.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.253257649450074,
+        1.458429841241264,
+        0.9117175675422072,
+        0.4316122132324558,
+        0.4265464988158148,
+        0.5545545081241756,
+        1.3383159049969051,
+        1.6255658165971043
+      ],
+      "absolute_propagation_risk": 0.9532371524541535
+    },
+    {
+      "module": "transformer_blocks.18.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.253257649450074,
+        1.458429841241264,
+        0.9117175675422072,
+        0.4316122132324558,
+        0.4265464988158148,
+        0.5545545081241756,
+        1.3383159049969051,
+        1.6255658165971043
+      ],
+      "absolute_propagation_risk": 0.9532371524541535
+    },
+    {
+      "module": "transformer_blocks.18.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.253257649450074,
+        1.458429841241264,
+        0.9117175675422072,
+        0.4316122132324558,
+        0.4265464988158148,
+        0.5545545081241756,
+        1.3383159049969051,
+        1.6255658165971043
+      ],
+      "absolute_propagation_risk": 0.9532371524541535
+    },
+    {
+      "module": "transformer_blocks.18.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.253257649450074,
+        1.458429841241264,
+        0.9117175675422072,
+        0.4316122132324558,
+        0.4265464988158148,
+        0.5545545081241756,
+        1.3383159049969051,
+        1.6255658165971043
+      ],
+      "absolute_propagation_risk": 0.9532371524541535
+    },
+    {
+      "module": "transformer_blocks.18.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.253257649450074,
+        1.458429841241264,
+        0.9117175675422072,
+        0.4316122132324558,
+        0.4265464988158148,
+        0.5545545081241756,
+        1.3383159049969051,
+        1.6255658165971043
+      ],
+      "absolute_propagation_risk": 0.9532371524541535
+    },
+    {
+      "module": "transformer_blocks.18.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.253257649450074,
+        1.458429841241264,
+        0.9117175675422072,
+        0.4316122132324558,
+        0.4265464988158148,
+        0.5545545081241756,
+        1.3383159049969051,
+        1.6255658165971043
+      ],
+      "absolute_propagation_risk": 0.9532371524541535
+    },
+    {
+      "module": "transformer_blocks.19.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.21325691645638,
+        1.2858756217456062,
+        0.9557000649703495,
+        0.42619276297741676,
+        0.43438052394615867,
+        0.5707510067746839,
+        1.4452573946463279,
+        1.6685857084830769
+      ],
+      "absolute_propagation_risk": 0.9686031833536991
+    },
+    {
+      "module": "transformer_blocks.19.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.21325691645638,
+        1.2858756217456062,
+        0.9557000649703495,
+        0.42619276297741676,
+        0.43438052394615867,
+        0.5707510067746839,
+        1.4452573946463279,
+        1.6685857084830769
+      ],
+      "absolute_propagation_risk": 0.9686031833536991
+    },
+    {
+      "module": "transformer_blocks.19.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.21325691645638,
+        1.2858756217456062,
+        0.9557000649703495,
+        0.42619276297741676,
+        0.43438052394615867,
+        0.5707510067746839,
+        1.4452573946463279,
+        1.6685857084830769
+      ],
+      "absolute_propagation_risk": 0.9686031833536991
+    },
+    {
+      "module": "transformer_blocks.19.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.21325691645638,
+        1.2858756217456062,
+        0.9557000649703495,
+        0.42619276297741676,
+        0.43438052394615867,
+        0.5707510067746839,
+        1.4452573946463279,
+        1.6685857084830769
+      ],
+      "absolute_propagation_risk": 0.9686031833536991
+    },
+    {
+      "module": "transformer_blocks.19.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.21325691645638,
+        1.2858756217456062,
+        0.9557000649703495,
+        0.42619276297741676,
+        0.43438052394615867,
+        0.5707510067746839,
+        1.4452573946463279,
+        1.6685857084830769
+      ],
+      "absolute_propagation_risk": 0.9686031833536991
+    },
+    {
+      "module": "transformer_blocks.19.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.21325691645638,
+        1.2858756217456062,
+        0.9557000649703495,
+        0.42619276297741676,
+        0.43438052394615867,
+        0.5707510067746839,
+        1.4452573946463279,
+        1.6685857084830769
+      ],
+      "absolute_propagation_risk": 0.9686031833536991
+    },
+    {
+      "module": "transformer_blocks.19.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.21325691645638,
+        1.2858756217456062,
+        0.9557000649703495,
+        0.42619276297741676,
+        0.43438052394615867,
+        0.5707510067746839,
+        1.4452573946463279,
+        1.6685857084830769
+      ],
+      "absolute_propagation_risk": 0.9686031833536991
+    },
+    {
+      "module": "transformer_blocks.20.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1732561834626862,
+        1.113321402249949,
+        0.999682562398492,
+        0.4207733127223777,
+        0.4422145490765025,
+        0.5869475054251923,
+        1.5521988842957508,
+        1.7116056003690492
+      ],
+      "absolute_propagation_risk": 0.9839692142532446
+    },
+    {
+      "module": "transformer_blocks.20.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1732561834626862,
+        1.113321402249949,
+        0.999682562398492,
+        0.4207733127223777,
+        0.4422145490765025,
+        0.5869475054251923,
+        1.5521988842957508,
+        1.7116056003690492
+      ],
+      "absolute_propagation_risk": 0.9839692142532446
+    },
+    {
+      "module": "transformer_blocks.20.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1732561834626862,
+        1.113321402249949,
+        0.999682562398492,
+        0.4207733127223777,
+        0.4422145490765025,
+        0.5869475054251923,
+        1.5521988842957508,
+        1.7116056003690492
+      ],
+      "absolute_propagation_risk": 0.9839692142532446
+    },
+    {
+      "module": "transformer_blocks.20.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1732561834626862,
+        1.113321402249949,
+        0.999682562398492,
+        0.4207733127223777,
+        0.4422145490765025,
+        0.5869475054251923,
+        1.5521988842957508,
+        1.7116056003690492
+      ],
+      "absolute_propagation_risk": 0.9839692142532446
+    },
+    {
+      "module": "transformer_blocks.20.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1732561834626862,
+        1.113321402249949,
+        0.999682562398492,
+        0.4207733127223777,
+        0.4422145490765025,
+        0.5869475054251923,
+        1.5521988842957508,
+        1.7116056003690492
+      ],
+      "absolute_propagation_risk": 0.9839692142532446
+    },
+    {
+      "module": "transformer_blocks.20.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1732561834626862,
+        1.113321402249949,
+        0.999682562398492,
+        0.4207733127223777,
+        0.4422145490765025,
+        0.5869475054251923,
+        1.5521988842957508,
+        1.7116056003690492
+      ],
+      "absolute_propagation_risk": 0.9839692142532446
+    },
+    {
+      "module": "transformer_blocks.20.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1732561834626862,
+        1.113321402249949,
+        0.999682562398492,
+        0.4207733127223777,
+        0.4422145490765025,
+        0.5869475054251923,
+        1.5521988842957508,
+        1.7116056003690492
+      ],
+      "absolute_propagation_risk": 0.9839692142532446
+    },
+    {
+      "module": "transformer_blocks.21.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1332554504689927,
+        0.9407671827542913,
+        1.0436650598266344,
+        0.4153538624673387,
+        0.45004857420684635,
+        0.6031440040757006,
+        1.6591403739451738,
+        1.754625492255022
+      ],
+      "absolute_propagation_risk": 0.9993352451527902
+    },
+    {
+      "module": "transformer_blocks.21.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1332554504689927,
+        0.9407671827542913,
+        1.0436650598266344,
+        0.4153538624673387,
+        0.45004857420684635,
+        0.6031440040757006,
+        1.6591403739451738,
+        1.754625492255022
+      ],
+      "absolute_propagation_risk": 0.9993352451527902
+    },
+    {
+      "module": "transformer_blocks.21.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1332554504689927,
+        0.9407671827542913,
+        1.0436650598266344,
+        0.4153538624673387,
+        0.45004857420684635,
+        0.6031440040757006,
+        1.6591403739451738,
+        1.754625492255022
+      ],
+      "absolute_propagation_risk": 0.9993352451527902
+    },
+    {
+      "module": "transformer_blocks.21.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1332554504689927,
+        0.9407671827542913,
+        1.0436650598266344,
+        0.4153538624673387,
+        0.45004857420684635,
+        0.6031440040757006,
+        1.6591403739451738,
+        1.754625492255022
+      ],
+      "absolute_propagation_risk": 0.9993352451527902
+    },
+    {
+      "module": "transformer_blocks.21.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1332554504689927,
+        0.9407671827542913,
+        1.0436650598266344,
+        0.4153538624673387,
+        0.45004857420684635,
+        0.6031440040757006,
+        1.6591403739451738,
+        1.754625492255022
+      ],
+      "absolute_propagation_risk": 0.9993352451527902
+    },
+    {
+      "module": "transformer_blocks.21.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1332554504689927,
+        0.9407671827542913,
+        1.0436650598266344,
+        0.4153538624673387,
+        0.45004857420684635,
+        0.6031440040757006,
+        1.6591403739451738,
+        1.754625492255022
+      ],
+      "absolute_propagation_risk": 0.9993352451527902
+    },
+    {
+      "module": "transformer_blocks.21.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1332554504689927,
+        0.9407671827542913,
+        1.0436650598266344,
+        0.4153538624673387,
+        0.45004857420684635,
+        0.6031440040757006,
+        1.6591403739451738,
+        1.754625492255022
+      ],
+      "absolute_propagation_risk": 0.9993352451527902
+    },
+    {
+      "module": "transformer_blocks.22.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.093254717475299,
+        0.7682129632586339,
+        1.0876475572547768,
+        0.40993441221229965,
+        0.4578825993371902,
+        0.6193405027262089,
+        1.7660818635945967,
+        1.7976453841409943
+      ],
+      "absolute_propagation_risk": 1.0147012760523357
+    },
+    {
+      "module": "transformer_blocks.22.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.093254717475299,
+        0.7682129632586339,
+        1.0876475572547768,
+        0.40993441221229965,
+        0.4578825993371902,
+        0.6193405027262089,
+        1.7660818635945967,
+        1.7976453841409943
+      ],
+      "absolute_propagation_risk": 1.0147012760523357
+    },
+    {
+      "module": "transformer_blocks.22.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.093254717475299,
+        0.7682129632586339,
+        1.0876475572547768,
+        0.40993441221229965,
+        0.4578825993371902,
+        0.6193405027262089,
+        1.7660818635945967,
+        1.7976453841409943
+      ],
+      "absolute_propagation_risk": 1.0147012760523357
+    },
+    {
+      "module": "transformer_blocks.22.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.093254717475299,
+        0.7682129632586339,
+        1.0876475572547768,
+        0.40993441221229965,
+        0.4578825993371902,
+        0.6193405027262089,
+        1.7660818635945967,
+        1.7976453841409943
+      ],
+      "absolute_propagation_risk": 1.0147012760523357
+    },
+    {
+      "module": "transformer_blocks.22.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.093254717475299,
+        0.7682129632586339,
+        1.0876475572547768,
+        0.40993441221229965,
+        0.4578825993371902,
+        0.6193405027262089,
+        1.7660818635945967,
+        1.7976453841409943
+      ],
+      "absolute_propagation_risk": 1.0147012760523357
+    },
+    {
+      "module": "transformer_blocks.22.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.093254717475299,
+        0.7682129632586339,
+        1.0876475572547768,
+        0.40993441221229965,
+        0.4578825993371902,
+        0.6193405027262089,
+        1.7660818635945967,
+        1.7976453841409943
+      ],
+      "absolute_propagation_risk": 1.0147012760523357
+    },
+    {
+      "module": "transformer_blocks.22.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.093254717475299,
+        0.7682129632586339,
+        1.0876475572547768,
+        0.40993441221229965,
+        0.4578825993371902,
+        0.6193405027262089,
+        1.7660818635945967,
+        1.7976453841409943
+      ],
+      "absolute_propagation_risk": 1.0147012760523357
+    },
+    {
+      "module": "transformer_blocks.23.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1823402877970375,
+        1.050498925329737,
+        1.0149669091113205,
+        0.4004408608251584,
+        0.4342190934102589,
+        0.5929173128113028,
+        1.5925956471628029,
+        1.732020963552382
+      ],
+      "absolute_propagation_risk": 1.0325060140084465
+    },
+    {
+      "module": "transformer_blocks.23.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1823402877970375,
+        1.050498925329737,
+        1.0149669091113205,
+        0.4004408608251584,
+        0.4342190934102589,
+        0.5929173128113028,
+        1.5925956471628029,
+        1.732020963552382
+      ],
+      "absolute_propagation_risk": 1.0325060140084465
+    },
+    {
+      "module": "transformer_blocks.23.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1823402877970375,
+        1.050498925329737,
+        1.0149669091113205,
+        0.4004408608251584,
+        0.4342190934102589,
+        0.5929173128113028,
+        1.5925956471628029,
+        1.732020963552382
+      ],
+      "absolute_propagation_risk": 1.0325060140084465
+    },
+    {
+      "module": "transformer_blocks.23.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1823402877970375,
+        1.050498925329737,
+        1.0149669091113205,
+        0.4004408608251584,
+        0.4342190934102589,
+        0.5929173128113028,
+        1.5925956471628029,
+        1.732020963552382
+      ],
+      "absolute_propagation_risk": 1.0325060140084465
+    },
+    {
+      "module": "transformer_blocks.23.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1823402877970375,
+        1.050498925329737,
+        1.0149669091113205,
+        0.4004408608251584,
+        0.4342190934102589,
+        0.5929173128113028,
+        1.5925956471628029,
+        1.732020963552382
+      ],
+      "absolute_propagation_risk": 1.0325060140084465
+    },
+    {
+      "module": "transformer_blocks.23.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1823402877970375,
+        1.050498925329737,
+        1.0149669091113205,
+        0.4004408608251584,
+        0.4342190934102589,
+        0.5929173128113028,
+        1.5925956471628029,
+        1.732020963552382
+      ],
+      "absolute_propagation_risk": 1.0325060140084465
+    },
+    {
+      "module": "transformer_blocks.23.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.1823402877970375,
+        1.050498925329737,
+        1.0149669091113205,
+        0.4004408608251584,
+        0.4342190934102589,
+        0.5929173128113028,
+        1.5925956471628029,
+        1.732020963552382
+      ],
+      "absolute_propagation_risk": 1.0325060140084465
+    },
+    {
+      "module": "transformer_blocks.24.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2714258581187758,
+        1.3327848874008401,
+        0.9422862609678642,
+        0.39094730943801714,
+        0.4105555874833275,
+        0.5664941228963966,
+        1.4191094307310088,
+        1.6663965429637693
+      ],
+      "absolute_propagation_risk": 1.0503107519645571
+    },
+    {
+      "module": "transformer_blocks.24.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2714258581187758,
+        1.3327848874008401,
+        0.9422862609678642,
+        0.39094730943801714,
+        0.4105555874833275,
+        0.5664941228963966,
+        1.4191094307310088,
+        1.6663965429637693
+      ],
+      "absolute_propagation_risk": 1.0503107519645571
+    },
+    {
+      "module": "transformer_blocks.24.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2714258581187758,
+        1.3327848874008401,
+        0.9422862609678642,
+        0.39094730943801714,
+        0.4105555874833275,
+        0.5664941228963966,
+        1.4191094307310088,
+        1.6663965429637693
+      ],
+      "absolute_propagation_risk": 1.0503107519645571
+    },
+    {
+      "module": "transformer_blocks.24.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2714258581187758,
+        1.3327848874008401,
+        0.9422862609678642,
+        0.39094730943801714,
+        0.4105555874833275,
+        0.5664941228963966,
+        1.4191094307310088,
+        1.6663965429637693
+      ],
+      "absolute_propagation_risk": 1.0503107519645571
+    },
+    {
+      "module": "transformer_blocks.24.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2714258581187758,
+        1.3327848874008401,
+        0.9422862609678642,
+        0.39094730943801714,
+        0.4105555874833275,
+        0.5664941228963966,
+        1.4191094307310088,
+        1.6663965429637693
+      ],
+      "absolute_propagation_risk": 1.0503107519645571
+    },
+    {
+      "module": "transformer_blocks.24.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2714258581187758,
+        1.3327848874008401,
+        0.9422862609678642,
+        0.39094730943801714,
+        0.4105555874833275,
+        0.5664941228963966,
+        1.4191094307310088,
+        1.6663965429637693
+      ],
+      "absolute_propagation_risk": 1.0503107519645571
+    },
+    {
+      "module": "transformer_blocks.24.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.2714258581187758,
+        1.3327848874008401,
+        0.9422862609678642,
+        0.39094730943801714,
+        0.4105555874833275,
+        0.5664941228963966,
+        1.4191094307310088,
+        1.6663965429637693
+      ],
+      "absolute_propagation_risk": 1.0503107519645571
+    },
+    {
+      "module": "transformer_blocks.25.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3605114284405144,
+        1.6150708494719435,
+        0.8696056128244078,
+        0.3814537580508759,
+        0.3868920815563961,
+        0.5400709329814903,
+        1.245623214299215,
+        1.6007721223751568
+      ],
+      "absolute_propagation_risk": 1.0681154899206677
+    },
+    {
+      "module": "transformer_blocks.25.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3605114284405144,
+        1.6150708494719435,
+        0.8696056128244078,
+        0.3814537580508759,
+        0.3868920815563961,
+        0.5400709329814903,
+        1.245623214299215,
+        1.6007721223751568
+      ],
+      "absolute_propagation_risk": 1.0681154899206677
+    },
+    {
+      "module": "transformer_blocks.25.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3605114284405144,
+        1.6150708494719435,
+        0.8696056128244078,
+        0.3814537580508759,
+        0.3868920815563961,
+        0.5400709329814903,
+        1.245623214299215,
+        1.6007721223751568
+      ],
+      "absolute_propagation_risk": 1.0681154899206677
+    },
+    {
+      "module": "transformer_blocks.25.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3605114284405144,
+        1.6150708494719435,
+        0.8696056128244078,
+        0.3814537580508759,
+        0.3868920815563961,
+        0.5400709329814903,
+        1.245623214299215,
+        1.6007721223751568
+      ],
+      "absolute_propagation_risk": 1.0681154899206677
+    },
+    {
+      "module": "transformer_blocks.25.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3605114284405144,
+        1.6150708494719435,
+        0.8696056128244078,
+        0.3814537580508759,
+        0.3868920815563961,
+        0.5400709329814903,
+        1.245623214299215,
+        1.6007721223751568
+      ],
+      "absolute_propagation_risk": 1.0681154899206677
+    },
+    {
+      "module": "transformer_blocks.25.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3605114284405144,
+        1.6150708494719435,
+        0.8696056128244078,
+        0.3814537580508759,
+        0.3868920815563961,
+        0.5400709329814903,
+        1.245623214299215,
+        1.6007721223751568
+      ],
+      "absolute_propagation_risk": 1.0681154899206677
+    },
+    {
+      "module": "transformer_blocks.25.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.3605114284405144,
+        1.6150708494719435,
+        0.8696056128244078,
+        0.3814537580508759,
+        0.3868920815563961,
+        0.5400709329814903,
+        1.245623214299215,
+        1.6007721223751568
+      ],
+      "absolute_propagation_risk": 1.0681154899206677
+    },
+    {
+      "module": "transformer_blocks.26.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.449596998762253,
+        1.8973568115430466,
+        0.7969249646809514,
+        0.37196020666373464,
+        0.36322857562946476,
+        0.5136477430665842,
+        1.0721369978674211,
+        1.5351477017865445
+      ],
+      "absolute_propagation_risk": 1.0859202278767783
+    },
+    {
+      "module": "transformer_blocks.26.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.449596998762253,
+        1.8973568115430466,
+        0.7969249646809514,
+        0.37196020666373464,
+        0.36322857562946476,
+        0.5136477430665842,
+        1.0721369978674211,
+        1.5351477017865445
+      ],
+      "absolute_propagation_risk": 1.0859202278767783
+    },
+    {
+      "module": "transformer_blocks.26.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.449596998762253,
+        1.8973568115430466,
+        0.7969249646809514,
+        0.37196020666373464,
+        0.36322857562946476,
+        0.5136477430665842,
+        1.0721369978674211,
+        1.5351477017865445
+      ],
+      "absolute_propagation_risk": 1.0859202278767783
+    },
+    {
+      "module": "transformer_blocks.26.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.449596998762253,
+        1.8973568115430466,
+        0.7969249646809514,
+        0.37196020666373464,
+        0.36322857562946476,
+        0.5136477430665842,
+        1.0721369978674211,
+        1.5351477017865445
+      ],
+      "absolute_propagation_risk": 1.0859202278767783
+    },
+    {
+      "module": "transformer_blocks.26.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.449596998762253,
+        1.8973568115430466,
+        0.7969249646809514,
+        0.37196020666373464,
+        0.36322857562946476,
+        0.5136477430665842,
+        1.0721369978674211,
+        1.5351477017865445
+      ],
+      "absolute_propagation_risk": 1.0859202278767783
+    },
+    {
+      "module": "transformer_blocks.26.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.449596998762253,
+        1.8973568115430466,
+        0.7969249646809514,
+        0.37196020666373464,
+        0.36322857562946476,
+        0.5136477430665842,
+        1.0721369978674211,
+        1.5351477017865445
+      ],
+      "absolute_propagation_risk": 1.0859202278767783
+    },
+    {
+      "module": "transformer_blocks.26.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.449596998762253,
+        1.8973568115430466,
+        0.7969249646809514,
+        0.37196020666373464,
+        0.36322857562946476,
+        0.5136477430665842,
+        1.0721369978674211,
+        1.5351477017865445
+      ],
+      "absolute_propagation_risk": 1.0859202278767783
+    },
+    {
+      "module": "transformer_blocks.27.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5628089620566592,
+        1.815286460977385,
+        0.7666756723805686,
+        0.3694626913930858,
+        0.36700293181161975,
+        0.5089962457741551,
+        1.082747444486219,
+        1.5270195911203075
+      ],
+      "absolute_propagation_risk": 1.0867262226522114
+    },
+    {
+      "module": "transformer_blocks.27.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5628089620566592,
+        1.815286460977385,
+        0.7666756723805686,
+        0.3694626913930858,
+        0.36700293181161975,
+        0.5089962457741551,
+        1.082747444486219,
+        1.5270195911203075
+      ],
+      "absolute_propagation_risk": 1.0867262226522114
+    },
+    {
+      "module": "transformer_blocks.27.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5628089620566592,
+        1.815286460977385,
+        0.7666756723805686,
+        0.3694626913930858,
+        0.36700293181161975,
+        0.5089962457741551,
+        1.082747444486219,
+        1.5270195911203075
+      ],
+      "absolute_propagation_risk": 1.0867262226522114
+    },
+    {
+      "module": "transformer_blocks.27.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5628089620566592,
+        1.815286460977385,
+        0.7666756723805686,
+        0.3694626913930858,
+        0.36700293181161975,
+        0.5089962457741551,
+        1.082747444486219,
+        1.5270195911203075
+      ],
+      "absolute_propagation_risk": 1.0867262226522114
+    },
+    {
+      "module": "transformer_blocks.27.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5628089620566592,
+        1.815286460977385,
+        0.7666756723805686,
+        0.3694626913930858,
+        0.36700293181161975,
+        0.5089962457741551,
+        1.082747444486219,
+        1.5270195911203075
+      ],
+      "absolute_propagation_risk": 1.0867262226522114
+    },
+    {
+      "module": "transformer_blocks.27.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5628089620566592,
+        1.815286460977385,
+        0.7666756723805686,
+        0.3694626913930858,
+        0.36700293181161975,
+        0.5089962457741551,
+        1.082747444486219,
+        1.5270195911203075
+      ],
+      "absolute_propagation_risk": 1.0867262226522114
+    },
+    {
+      "module": "transformer_blocks.27.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5628089620566592,
+        1.815286460977385,
+        0.7666756723805686,
+        0.3694626913930858,
+        0.36700293181161975,
+        0.5089962457741551,
+        1.082747444486219,
+        1.5270195911203075
+      ],
+      "absolute_propagation_risk": 1.0867262226522114
+    },
+    {
+      "module": "transformer_blocks.28.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.6760209253510654,
+        1.7332161104117234,
+        0.7364263800801857,
+        0.36696517612243695,
+        0.37077728799377485,
+        0.5043447484817261,
+        1.093357891105017,
+        1.5188914804540707
+      ],
+      "absolute_propagation_risk": 1.0875322174276443
+    },
+    {
+      "module": "transformer_blocks.28.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.6760209253510654,
+        1.7332161104117234,
+        0.7364263800801857,
+        0.36696517612243695,
+        0.37077728799377485,
+        0.5043447484817261,
+        1.093357891105017,
+        1.5188914804540707
+      ],
+      "absolute_propagation_risk": 1.0875322174276443
+    },
+    {
+      "module": "transformer_blocks.28.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.6760209253510654,
+        1.7332161104117234,
+        0.7364263800801857,
+        0.36696517612243695,
+        0.37077728799377485,
+        0.5043447484817261,
+        1.093357891105017,
+        1.5188914804540707
+      ],
+      "absolute_propagation_risk": 1.0875322174276443
+    },
+    {
+      "module": "transformer_blocks.28.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.6760209253510654,
+        1.7332161104117234,
+        0.7364263800801857,
+        0.36696517612243695,
+        0.37077728799377485,
+        0.5043447484817261,
+        1.093357891105017,
+        1.5188914804540707
+      ],
+      "absolute_propagation_risk": 1.0875322174276443
+    },
+    {
+      "module": "transformer_blocks.28.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.6760209253510654,
+        1.7332161104117234,
+        0.7364263800801857,
+        0.36696517612243695,
+        0.37077728799377485,
+        0.5043447484817261,
+        1.093357891105017,
+        1.5188914804540707
+      ],
+      "absolute_propagation_risk": 1.0875322174276443
+    },
+    {
+      "module": "transformer_blocks.28.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.6760209253510654,
+        1.7332161104117234,
+        0.7364263800801857,
+        0.36696517612243695,
+        0.37077728799377485,
+        0.5043447484817261,
+        1.093357891105017,
+        1.5188914804540707
+      ],
+      "absolute_propagation_risk": 1.0875322174276443
+    },
+    {
+      "module": "transformer_blocks.28.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.6760209253510654,
+        1.7332161104117234,
+        0.7364263800801857,
+        0.36696517612243695,
+        0.37077728799377485,
+        0.5043447484817261,
+        1.093357891105017,
+        1.5188914804540707
+      ],
+      "absolute_propagation_risk": 1.0875322174276443
+    },
+    {
+      "module": "transformer_blocks.29.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7892328886454716,
+        1.651145759846062,
+        0.7061770877798028,
+        0.3644676608517881,
+        0.3745516441759299,
+        0.499693251189297,
+        1.103968337723815,
+        1.510763369787834
+      ],
+      "absolute_propagation_risk": 1.0883382122030774
+    },
+    {
+      "module": "transformer_blocks.29.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7892328886454716,
+        1.651145759846062,
+        0.7061770877798028,
+        0.3644676608517881,
+        0.3745516441759299,
+        0.499693251189297,
+        1.103968337723815,
+        1.510763369787834
+      ],
+      "absolute_propagation_risk": 1.0883382122030774
+    },
+    {
+      "module": "transformer_blocks.29.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7892328886454716,
+        1.651145759846062,
+        0.7061770877798028,
+        0.3644676608517881,
+        0.3745516441759299,
+        0.499693251189297,
+        1.103968337723815,
+        1.510763369787834
+      ],
+      "absolute_propagation_risk": 1.0883382122030774
+    },
+    {
+      "module": "transformer_blocks.29.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7892328886454716,
+        1.651145759846062,
+        0.7061770877798028,
+        0.3644676608517881,
+        0.3745516441759299,
+        0.499693251189297,
+        1.103968337723815,
+        1.510763369787834
+      ],
+      "absolute_propagation_risk": 1.0883382122030774
+    },
+    {
+      "module": "transformer_blocks.29.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7892328886454716,
+        1.651145759846062,
+        0.7061770877798028,
+        0.3644676608517881,
+        0.3745516441759299,
+        0.499693251189297,
+        1.103968337723815,
+        1.510763369787834
+      ],
+      "absolute_propagation_risk": 1.0883382122030774
+    },
+    {
+      "module": "transformer_blocks.29.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7892328886454716,
+        1.651145759846062,
+        0.7061770877798028,
+        0.3644676608517881,
+        0.3745516441759299,
+        0.499693251189297,
+        1.103968337723815,
+        1.510763369787834
+      ],
+      "absolute_propagation_risk": 1.0883382122030774
+    },
+    {
+      "module": "transformer_blocks.29.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7892328886454716,
+        1.651145759846062,
+        0.7061770877798028,
+        0.3644676608517881,
+        0.3745516441759299,
+        0.499693251189297,
+        1.103968337723815,
+        1.510763369787834
+      ],
+      "absolute_propagation_risk": 1.0883382122030774
+    },
+    {
+      "module": "transformer_blocks.30.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9024448519398778,
+        1.5690754092804005,
+        0.67592779547942,
+        0.36197014558113927,
+        0.3783260003580849,
+        0.49504175389686794,
+        1.114578784342613,
+        1.502635259121597
+      ],
+      "absolute_propagation_risk": 1.0891442069785104
+    },
+    {
+      "module": "transformer_blocks.30.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9024448519398778,
+        1.5690754092804005,
+        0.67592779547942,
+        0.36197014558113927,
+        0.3783260003580849,
+        0.49504175389686794,
+        1.114578784342613,
+        1.502635259121597
+      ],
+      "absolute_propagation_risk": 1.0891442069785104
+    },
+    {
+      "module": "transformer_blocks.30.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9024448519398778,
+        1.5690754092804005,
+        0.67592779547942,
+        0.36197014558113927,
+        0.3783260003580849,
+        0.49504175389686794,
+        1.114578784342613,
+        1.502635259121597
+      ],
+      "absolute_propagation_risk": 1.0891442069785104
+    },
+    {
+      "module": "transformer_blocks.30.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9024448519398778,
+        1.5690754092804005,
+        0.67592779547942,
+        0.36197014558113927,
+        0.3783260003580849,
+        0.49504175389686794,
+        1.114578784342613,
+        1.502635259121597
+      ],
+      "absolute_propagation_risk": 1.0891442069785104
+    },
+    {
+      "module": "transformer_blocks.30.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9024448519398778,
+        1.5690754092804005,
+        0.67592779547942,
+        0.36197014558113927,
+        0.3783260003580849,
+        0.49504175389686794,
+        1.114578784342613,
+        1.502635259121597
+      ],
+      "absolute_propagation_risk": 1.0891442069785104
+    },
+    {
+      "module": "transformer_blocks.30.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9024448519398778,
+        1.5690754092804005,
+        0.67592779547942,
+        0.36197014558113927,
+        0.3783260003580849,
+        0.49504175389686794,
+        1.114578784342613,
+        1.502635259121597
+      ],
+      "absolute_propagation_risk": 1.0891442069785104
+    },
+    {
+      "module": "transformer_blocks.30.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9024448519398778,
+        1.5690754092804005,
+        0.67592779547942,
+        0.36197014558113927,
+        0.3783260003580849,
+        0.49504175389686794,
+        1.114578784342613,
+        1.502635259121597
+      ],
+      "absolute_propagation_risk": 1.0891442069785104
+    },
+    {
+      "module": "transformer_blocks.31.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9114984416305916,
+        1.5094169147648604,
+        0.7315964958686088,
+        0.36862032225096647,
+        0.3850414583710682,
+        0.5076971532920849,
+        1.1102797181256499,
+        1.4758494956961707
+      ],
+      "absolute_propagation_risk": 1.0768930941740469
+    },
+    {
+      "module": "transformer_blocks.31.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9114984416305916,
+        1.5094169147648604,
+        0.7315964958686088,
+        0.36862032225096647,
+        0.3850414583710682,
+        0.5076971532920849,
+        1.1102797181256499,
+        1.4758494956961707
+      ],
+      "absolute_propagation_risk": 1.0768930941740469
+    },
+    {
+      "module": "transformer_blocks.31.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9114984416305916,
+        1.5094169147648604,
+        0.7315964958686088,
+        0.36862032225096647,
+        0.3850414583710682,
+        0.5076971532920849,
+        1.1102797181256499,
+        1.4758494956961707
+      ],
+      "absolute_propagation_risk": 1.0768930941740469
+    },
+    {
+      "module": "transformer_blocks.31.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9114984416305916,
+        1.5094169147648604,
+        0.7315964958686088,
+        0.36862032225096647,
+        0.3850414583710682,
+        0.5076971532920849,
+        1.1102797181256499,
+        1.4758494956961707
+      ],
+      "absolute_propagation_risk": 1.0768930941740469
+    },
+    {
+      "module": "transformer_blocks.31.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9114984416305916,
+        1.5094169147648604,
+        0.7315964958686088,
+        0.36862032225096647,
+        0.3850414583710682,
+        0.5076971532920849,
+        1.1102797181256499,
+        1.4758494956961707
+      ],
+      "absolute_propagation_risk": 1.0768930941740469
+    },
+    {
+      "module": "transformer_blocks.31.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9114984416305916,
+        1.5094169147648604,
+        0.7315964958686088,
+        0.36862032225096647,
+        0.3850414583710682,
+        0.5076971532920849,
+        1.1102797181256499,
+        1.4758494956961707
+      ],
+      "absolute_propagation_risk": 1.0768930941740469
+    },
+    {
+      "module": "transformer_blocks.31.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9114984416305916,
+        1.5094169147648604,
+        0.7315964958686088,
+        0.36862032225096647,
+        0.3850414583710682,
+        0.5076971532920849,
+        1.1102797181256499,
+        1.4758494956961707
+      ],
+      "absolute_propagation_risk": 1.0768930941740469
+    },
+    {
+      "module": "transformer_blocks.32.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9205520313213054,
+        1.4497584202493203,
+        0.7872651962577973,
+        0.3752704989207936,
+        0.3917569163840515,
+        0.5203525526873019,
+        1.1059806519086863,
+        1.449063732270744
+      ],
+      "absolute_propagation_risk": 1.0646419813695833
+    },
+    {
+      "module": "transformer_blocks.32.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9205520313213054,
+        1.4497584202493203,
+        0.7872651962577973,
+        0.3752704989207936,
+        0.3917569163840515,
+        0.5203525526873019,
+        1.1059806519086863,
+        1.449063732270744
+      ],
+      "absolute_propagation_risk": 1.0646419813695833
+    },
+    {
+      "module": "transformer_blocks.32.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9205520313213054,
+        1.4497584202493203,
+        0.7872651962577973,
+        0.3752704989207936,
+        0.3917569163840515,
+        0.5203525526873019,
+        1.1059806519086863,
+        1.449063732270744
+      ],
+      "absolute_propagation_risk": 1.0646419813695833
+    },
+    {
+      "module": "transformer_blocks.32.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9205520313213054,
+        1.4497584202493203,
+        0.7872651962577973,
+        0.3752704989207936,
+        0.3917569163840515,
+        0.5203525526873019,
+        1.1059806519086863,
+        1.449063732270744
+      ],
+      "absolute_propagation_risk": 1.0646419813695833
+    },
+    {
+      "module": "transformer_blocks.32.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9205520313213054,
+        1.4497584202493203,
+        0.7872651962577973,
+        0.3752704989207936,
+        0.3917569163840515,
+        0.5203525526873019,
+        1.1059806519086863,
+        1.449063732270744
+      ],
+      "absolute_propagation_risk": 1.0646419813695833
+    },
+    {
+      "module": "transformer_blocks.32.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9205520313213054,
+        1.4497584202493203,
+        0.7872651962577973,
+        0.3752704989207936,
+        0.3917569163840515,
+        0.5203525526873019,
+        1.1059806519086863,
+        1.449063732270744
+      ],
+      "absolute_propagation_risk": 1.0646419813695833
+    },
+    {
+      "module": "transformer_blocks.32.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9205520313213054,
+        1.4497584202493203,
+        0.7872651962577973,
+        0.3752704989207936,
+        0.3917569163840515,
+        0.5203525526873019,
+        1.1059806519086863,
+        1.449063732270744
+      ],
+      "absolute_propagation_risk": 1.0646419813695833
+    },
+    {
+      "module": "transformer_blocks.33.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.929605621012019,
+        1.3900999257337803,
+        0.8429338966469861,
+        0.3819206755906208,
+        0.39847237439703476,
+        0.5330079520825187,
+        1.1016815856917233,
+        1.4222779688453175
+      ],
+      "absolute_propagation_risk": 1.0523908685651198
+    },
+    {
+      "module": "transformer_blocks.33.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.929605621012019,
+        1.3900999257337803,
+        0.8429338966469861,
+        0.3819206755906208,
+        0.39847237439703476,
+        0.5330079520825187,
+        1.1016815856917233,
+        1.4222779688453175
+      ],
+      "absolute_propagation_risk": 1.0523908685651198
+    },
+    {
+      "module": "transformer_blocks.33.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.929605621012019,
+        1.3900999257337803,
+        0.8429338966469861,
+        0.3819206755906208,
+        0.39847237439703476,
+        0.5330079520825187,
+        1.1016815856917233,
+        1.4222779688453175
+      ],
+      "absolute_propagation_risk": 1.0523908685651198
+    },
+    {
+      "module": "transformer_blocks.33.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.929605621012019,
+        1.3900999257337803,
+        0.8429338966469861,
+        0.3819206755906208,
+        0.39847237439703476,
+        0.5330079520825187,
+        1.1016815856917233,
+        1.4222779688453175
+      ],
+      "absolute_propagation_risk": 1.0523908685651198
+    },
+    {
+      "module": "transformer_blocks.33.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.929605621012019,
+        1.3900999257337803,
+        0.8429338966469861,
+        0.3819206755906208,
+        0.39847237439703476,
+        0.5330079520825187,
+        1.1016815856917233,
+        1.4222779688453175
+      ],
+      "absolute_propagation_risk": 1.0523908685651198
+    },
+    {
+      "module": "transformer_blocks.33.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.929605621012019,
+        1.3900999257337803,
+        0.8429338966469861,
+        0.3819206755906208,
+        0.39847237439703476,
+        0.5330079520825187,
+        1.1016815856917233,
+        1.4222779688453175
+      ],
+      "absolute_propagation_risk": 1.0523908685651198
+    },
+    {
+      "module": "transformer_blocks.33.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.929605621012019,
+        1.3900999257337803,
+        0.8429338966469861,
+        0.3819206755906208,
+        0.39847237439703476,
+        0.5330079520825187,
+        1.1016815856917233,
+        1.4222779688453175
+      ],
+      "absolute_propagation_risk": 1.0523908685651198
+    },
+    {
+      "module": "transformer_blocks.34.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9386592107027327,
+        1.3304414312182402,
+        0.8986025970361747,
+        0.38857085226044796,
+        0.4051878324100181,
+        0.5456633514777356,
+        1.09738251947476,
+        1.395492205419891
+      ],
+      "absolute_propagation_risk": 1.0401397557606562
+    },
+    {
+      "module": "transformer_blocks.34.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9386592107027327,
+        1.3304414312182402,
+        0.8986025970361747,
+        0.38857085226044796,
+        0.4051878324100181,
+        0.5456633514777356,
+        1.09738251947476,
+        1.395492205419891
+      ],
+      "absolute_propagation_risk": 1.0401397557606562
+    },
+    {
+      "module": "transformer_blocks.34.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9386592107027327,
+        1.3304414312182402,
+        0.8986025970361747,
+        0.38857085226044796,
+        0.4051878324100181,
+        0.5456633514777356,
+        1.09738251947476,
+        1.395492205419891
+      ],
+      "absolute_propagation_risk": 1.0401397557606562
+    },
+    {
+      "module": "transformer_blocks.34.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9386592107027327,
+        1.3304414312182402,
+        0.8986025970361747,
+        0.38857085226044796,
+        0.4051878324100181,
+        0.5456633514777356,
+        1.09738251947476,
+        1.395492205419891
+      ],
+      "absolute_propagation_risk": 1.0401397557606562
+    },
+    {
+      "module": "transformer_blocks.34.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9386592107027327,
+        1.3304414312182402,
+        0.8986025970361747,
+        0.38857085226044796,
+        0.4051878324100181,
+        0.5456633514777356,
+        1.09738251947476,
+        1.395492205419891
+      ],
+      "absolute_propagation_risk": 1.0401397557606562
+    },
+    {
+      "module": "transformer_blocks.34.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9386592107027327,
+        1.3304414312182402,
+        0.8986025970361747,
+        0.38857085226044796,
+        0.4051878324100181,
+        0.5456633514777356,
+        1.09738251947476,
+        1.395492205419891
+      ],
+      "absolute_propagation_risk": 1.0401397557606562
+    },
+    {
+      "module": "transformer_blocks.34.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9386592107027327,
+        1.3304414312182402,
+        0.8986025970361747,
+        0.38857085226044796,
+        0.4051878324100181,
+        0.5456633514777356,
+        1.09738251947476,
+        1.395492205419891
+      ],
+      "absolute_propagation_risk": 1.0401397557606562
+    },
+    {
+      "module": "transformer_blocks.35.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9477128003934465,
+        1.2707829367027001,
+        0.9542712974253634,
+        0.39522102893027516,
+        0.4119032904230014,
+        0.5583187508729526,
+        1.0930834532577967,
+        1.3687064419944646
+      ],
+      "absolute_propagation_risk": 1.0278886429561926
+    },
+    {
+      "module": "transformer_blocks.35.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9477128003934465,
+        1.2707829367027001,
+        0.9542712974253634,
+        0.39522102893027516,
+        0.4119032904230014,
+        0.5583187508729526,
+        1.0930834532577967,
+        1.3687064419944646
+      ],
+      "absolute_propagation_risk": 1.0278886429561926
+    },
+    {
+      "module": "transformer_blocks.35.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9477128003934465,
+        1.2707829367027001,
+        0.9542712974253634,
+        0.39522102893027516,
+        0.4119032904230014,
+        0.5583187508729526,
+        1.0930834532577967,
+        1.3687064419944646
+      ],
+      "absolute_propagation_risk": 1.0278886429561926
+    },
+    {
+      "module": "transformer_blocks.35.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9477128003934465,
+        1.2707829367027001,
+        0.9542712974253634,
+        0.39522102893027516,
+        0.4119032904230014,
+        0.5583187508729526,
+        1.0930834532577967,
+        1.3687064419944646
+      ],
+      "absolute_propagation_risk": 1.0278886429561926
+    },
+    {
+      "module": "transformer_blocks.35.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9477128003934465,
+        1.2707829367027001,
+        0.9542712974253634,
+        0.39522102893027516,
+        0.4119032904230014,
+        0.5583187508729526,
+        1.0930834532577967,
+        1.3687064419944646
+      ],
+      "absolute_propagation_risk": 1.0278886429561926
+    },
+    {
+      "module": "transformer_blocks.35.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9477128003934465,
+        1.2707829367027001,
+        0.9542712974253634,
+        0.39522102893027516,
+        0.4119032904230014,
+        0.5583187508729526,
+        1.0930834532577967,
+        1.3687064419944646
+      ],
+      "absolute_propagation_risk": 1.0278886429561926
+    },
+    {
+      "module": "transformer_blocks.35.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.9477128003934465,
+        1.2707829367027001,
+        0.9542712974253634,
+        0.39522102893027516,
+        0.4119032904230014,
+        0.5583187508729526,
+        1.0930834532577967,
+        1.3687064419944646
+      ],
+      "absolute_propagation_risk": 1.0278886429561926
+    },
+    {
+      "module": "transformer_blocks.36.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7680843503694863,
+        1.287612550730116,
+        0.8330528354953312,
+        0.3926291774580216,
+        0.4216562690294826,
+        0.5617690063004639,
+        1.0925884697639123,
+        1.642607340853187
+      ],
+      "absolute_propagation_risk": 1.00933256780727
+    },
+    {
+      "module": "transformer_blocks.36.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7680843503694863,
+        1.287612550730116,
+        0.8330528354953312,
+        0.3926291774580216,
+        0.4216562690294826,
+        0.5617690063004639,
+        1.0925884697639123,
+        1.642607340853187
+      ],
+      "absolute_propagation_risk": 1.00933256780727
+    },
+    {
+      "module": "transformer_blocks.36.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7680843503694863,
+        1.287612550730116,
+        0.8330528354953312,
+        0.3926291774580216,
+        0.4216562690294826,
+        0.5617690063004639,
+        1.0925884697639123,
+        1.642607340853187
+      ],
+      "absolute_propagation_risk": 1.00933256780727
+    },
+    {
+      "module": "transformer_blocks.36.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7680843503694863,
+        1.287612550730116,
+        0.8330528354953312,
+        0.3926291774580216,
+        0.4216562690294826,
+        0.5617690063004639,
+        1.0925884697639123,
+        1.642607340853187
+      ],
+      "absolute_propagation_risk": 1.00933256780727
+    },
+    {
+      "module": "transformer_blocks.36.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7680843503694863,
+        1.287612550730116,
+        0.8330528354953312,
+        0.3926291774580216,
+        0.4216562690294826,
+        0.5617690063004639,
+        1.0925884697639123,
+        1.642607340853187
+      ],
+      "absolute_propagation_risk": 1.00933256780727
+    },
+    {
+      "module": "transformer_blocks.36.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7680843503694863,
+        1.287612550730116,
+        0.8330528354953312,
+        0.3926291774580216,
+        0.4216562690294826,
+        0.5617690063004639,
+        1.0925884697639123,
+        1.642607340853187
+      ],
+      "absolute_propagation_risk": 1.00933256780727
+    },
+    {
+      "module": "transformer_blocks.36.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.7680843503694863,
+        1.287612550730116,
+        0.8330528354953312,
+        0.3926291774580216,
+        0.4216562690294826,
+        0.5617690063004639,
+        1.0925884697639123,
+        1.642607340853187
+      ],
+      "absolute_propagation_risk": 1.00933256780727
+    },
+    {
+      "module": "transformer_blocks.37.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5884559003455263,
+        1.3044421647575315,
+        0.7118343735652989,
+        0.390037325985768,
+        0.4314092476359638,
+        0.5652192617279751,
+        1.0920934862700282,
+        1.916508239711909
+      ],
+      "absolute_propagation_risk": 0.9907764926583472
+    },
+    {
+      "module": "transformer_blocks.37.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5884559003455263,
+        1.3044421647575315,
+        0.7118343735652989,
+        0.390037325985768,
+        0.4314092476359638,
+        0.5652192617279751,
+        1.0920934862700282,
+        1.916508239711909
+      ],
+      "absolute_propagation_risk": 0.9907764926583472
+    },
+    {
+      "module": "transformer_blocks.37.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5884559003455263,
+        1.3044421647575315,
+        0.7118343735652989,
+        0.390037325985768,
+        0.4314092476359638,
+        0.5652192617279751,
+        1.0920934862700282,
+        1.916508239711909
+      ],
+      "absolute_propagation_risk": 0.9907764926583472
+    },
+    {
+      "module": "transformer_blocks.37.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5884559003455263,
+        1.3044421647575315,
+        0.7118343735652989,
+        0.390037325985768,
+        0.4314092476359638,
+        0.5652192617279751,
+        1.0920934862700282,
+        1.916508239711909
+      ],
+      "absolute_propagation_risk": 0.9907764926583472
+    },
+    {
+      "module": "transformer_blocks.37.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5884559003455263,
+        1.3044421647575315,
+        0.7118343735652989,
+        0.390037325985768,
+        0.4314092476359638,
+        0.5652192617279751,
+        1.0920934862700282,
+        1.916508239711909
+      ],
+      "absolute_propagation_risk": 0.9907764926583472
+    },
+    {
+      "module": "transformer_blocks.37.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5884559003455263,
+        1.3044421647575315,
+        0.7118343735652989,
+        0.390037325985768,
+        0.4314092476359638,
+        0.5652192617279751,
+        1.0920934862700282,
+        1.916508239711909
+      ],
+      "absolute_propagation_risk": 0.9907764926583472
+    },
+    {
+      "module": "transformer_blocks.37.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.5884559003455263,
+        1.3044421647575315,
+        0.7118343735652989,
+        0.390037325985768,
+        0.4314092476359638,
+        0.5652192617279751,
+        1.0920934862700282,
+        1.916508239711909
+      ],
+      "absolute_propagation_risk": 0.9907764926583472
+    },
+    {
+      "module": "transformer_blocks.38.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.4088274503215663,
+        1.321271778784947,
+        0.5906159116352666,
+        0.38744547451351435,
+        0.44116222624244494,
+        0.5686695171554863,
+        1.0915985027761441,
+        2.1904091385706312
+      ],
+      "absolute_propagation_risk": 0.9722204175094245
+    },
+    {
+      "module": "transformer_blocks.38.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.4088274503215663,
+        1.321271778784947,
+        0.5906159116352666,
+        0.38744547451351435,
+        0.44116222624244494,
+        0.5686695171554863,
+        1.0915985027761441,
+        2.1904091385706312
+      ],
+      "absolute_propagation_risk": 0.9722204175094245
+    },
+    {
+      "module": "transformer_blocks.38.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.4088274503215663,
+        1.321271778784947,
+        0.5906159116352666,
+        0.38744547451351435,
+        0.44116222624244494,
+        0.5686695171554863,
+        1.0915985027761441,
+        2.1904091385706312
+      ],
+      "absolute_propagation_risk": 0.9722204175094245
+    },
+    {
+      "module": "transformer_blocks.38.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.4088274503215663,
+        1.321271778784947,
+        0.5906159116352666,
+        0.38744547451351435,
+        0.44116222624244494,
+        0.5686695171554863,
+        1.0915985027761441,
+        2.1904091385706312
+      ],
+      "absolute_propagation_risk": 0.9722204175094245
+    },
+    {
+      "module": "transformer_blocks.38.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.4088274503215663,
+        1.321271778784947,
+        0.5906159116352666,
+        0.38744547451351435,
+        0.44116222624244494,
+        0.5686695171554863,
+        1.0915985027761441,
+        2.1904091385706312
+      ],
+      "absolute_propagation_risk": 0.9722204175094245
+    },
+    {
+      "module": "transformer_blocks.38.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.4088274503215663,
+        1.321271778784947,
+        0.5906159116352666,
+        0.38744547451351435,
+        0.44116222624244494,
+        0.5686695171554863,
+        1.0915985027761441,
+        2.1904091385706312
+      ],
+      "absolute_propagation_risk": 0.9722204175094245
+    },
+    {
+      "module": "transformer_blocks.38.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.4088274503215663,
+        1.321271778784947,
+        0.5906159116352666,
+        0.38744547451351435,
+        0.44116222624244494,
+        0.5686695171554863,
+        1.0915985027761441,
+        2.1904091385706312
+      ],
+      "absolute_propagation_risk": 0.9722204175094245
+    },
+    {
+      "module": "transformer_blocks.39.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.39.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.39.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.39.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.39.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.39.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.39.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.40.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.40.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.40.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.40.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.40.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.40.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.40.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.41.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.41.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.41.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.41.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.41.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.41.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.41.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.42.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.42.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.42.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.42.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.42.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.42.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.42.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.43.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.43.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.43.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.43.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.43.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.43.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.43.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.44.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.44.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.44.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.44.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.44.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.44.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.44.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.45.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.45.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.45.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.45.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.45.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.45.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.45.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.46.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.46.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.46.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.46.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.46.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.46.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.46.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.47.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.47.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.47.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.47.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.47.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.47.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.47.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.48.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.48.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.48.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.48.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.48.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.48.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.48.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.49.attn.to_q",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.49.attn.to_k",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.49.attn.to_v",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.49.attn.to_out.0",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.49.ff.net.0.proj",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.49.ff.net.2",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "transformer_blocks.49.adaln_proj.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.229199000297606,
+        1.3381013928123626,
+        0.4693974497052343,
+        0.3848536230412608,
+        0.45091520484892617,
+        0.5721197725829976,
+        1.0911035192822598,
+        2.4643100374293536
+      ],
+      "absolute_propagation_risk": 0.9536643423605016
+    },
+    {
+      "module": "norm_out.linear",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "proj_out",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    },
+    {
+      "module": "audio_proj_out",
+      "weight_bits": 4,
+      "activation_bits": 4,
+      "propagation_state_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "absolute_propagation_risk": 1.0
+    }
+  ],
+  "measurement": {
+    "prompt": "A ceramic teapot rotating slowly on a wooden table in soft studio light",
+    "seed": 1701,
+    "height": 544,
+    "width": 960,
+    "frames": 124,
+    "elapsed_seconds": 1225.8704212987795,
+    "peak_allocated_gib": 127.33274936676025
+  }
+}

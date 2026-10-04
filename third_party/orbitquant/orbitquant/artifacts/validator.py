@@ -1,0 +1,479 @@
+from __future__ import annotations
+
+import json
+import math
+import re
+from pathlib import Path
+from typing import Any
+
+import torch
+from safetensors.torch import load_file
+
+from orbitquant.artifacts.checksums import validate_checksums, validate_sha256sums
+from orbitquant.artifacts.manifest import OrbitQuantManifest
+from orbitquant.codebooks import get_codebook
+from orbitquant.config import OrbitQuantConfig
+from orbitquant.rotations import get_rpbh_rotation
+
+_REQUIRED_ARTIFACT_FILES = (
+    "README.md",
+    "SHA256SUMS",
+    "model_index.json",
+    "model.safetensors",
+    "quantization_config.json",
+    "orbitquant_manifest.json",
+    "orbitquant_codebooks.safetensors",
+    "orbitquant_rotations.safetensors",
+    "prompts.json",
+    "benchmark/summary.json",
+)
+
+_SHA256SUMS_REQUIRED_EXTRA_ENTRIES = ("README.md", "orbitquant_manifest.json")
+_CODEBOOK_KEY_RE = re.compile(
+    r"^dim(?P<dim>\d+)_bits(?P<bits>\d+)\.(?P<field>centroids|boundaries)$"
+)
+_ROTATION_KEY_RE = re.compile(
+    r"^dim(?P<dim>\d+)_seed(?P<seed>-?\d+)_block(?P<block>\d+)\."
+    r"(?P<field>permutation|inverse_permutation|signs|normalization)$"
+)
+
+
+def validate_required_artifact_files(artifact_path: Path) -> None:
+    missing = [
+        relative_path
+        for relative_path in _REQUIRED_ARTIFACT_FILES
+        if not (artifact_path / relative_path).is_file()
+    ]
+    if missing:
+        raise RuntimeError(f"required artifact file missing: {missing}")
+
+
+def _mismatch(name: str, expected: Any, actual: Any) -> str | None:
+    return None if expected == actual else f"{name}: expected {expected!r}, got {actual!r}"
+
+
+def _validate_config_manifest(config: OrbitQuantConfig, manifest: OrbitQuantManifest) -> None:
+    expected = {
+        "weight_bits": config.weight_bits,
+        "activation_bits": config.activation_bits,
+        "rotation_seed": config.rotation_seed,
+        "block_size": config.block_size,
+        "codebook_version": config.codebook_version,
+        "target_policy": config.target_policy,
+        "runtime_mode": config.runtime_mode,
+        "activation_kernel_backend": config.activation_kernel_backend,
+        "activation_eps": config.activation_eps,
+        "adaln_group_size": config.adaln_group_size,
+    }
+    mismatches = [
+        mismatch
+        for key, value in expected.items()
+        if (mismatch := _mismatch(key, value, getattr(manifest, key))) is not None
+    ]
+    if mismatches:
+        raise RuntimeError("quantization_config mismatch: " + "; ".join(mismatches))
+
+
+def _validate_model_index(
+    model_index: dict[str, Any],
+    *,
+    config: OrbitQuantConfig,
+    manifest: OrbitQuantManifest,
+) -> None:
+    expected = {
+        "_class_name": "OrbitQuantComponentArtifact",
+        "artifact_format": "orbitquant-v1",
+        "quant_method": "orbitquant",
+        "source_model_id": manifest.source_model_id,
+        "source_revision": manifest.source_revision,
+        "source_license": manifest.source_license,
+        "weight_name": "model.safetensors",
+        "quantization_config": "quantization_config.json",
+        "manifest": "orbitquant_manifest.json",
+        "codebooks": "orbitquant_codebooks.safetensors",
+        "rotations": "orbitquant_rotations.safetensors",
+        "weight_bits": config.weight_bits,
+        "activation_bits": config.activation_bits,
+        "target_policy": config.target_policy,
+        "runtime_mode": config.runtime_mode,
+        "activation_kernel_backend": config.activation_kernel_backend,
+    }
+    if "activation_eps" in model_index:
+        expected["activation_eps"] = config.activation_eps
+    if "codebook_version" in model_index:
+        expected["codebook_version"] = config.codebook_version
+    if manifest.quantization_device != "unknown" or "quantization_device" in model_index:
+        expected["quantization_device"] = manifest.quantization_device
+    if (
+        manifest.weight_quantization_backend != "unknown"
+        or "weight_quantization_backend" in model_index
+    ):
+        expected["weight_quantization_backend"] = manifest.weight_quantization_backend
+    if (
+        manifest.quantization_staging_mode != "unknown"
+        or "quantization_staging_mode" in model_index
+    ):
+        expected["quantization_staging_mode"] = manifest.quantization_staging_mode
+    mismatches = [
+        mismatch
+        for key, value in expected.items()
+        if (mismatch := _mismatch(key, value, model_index.get(key))) is not None
+    ]
+    component = model_index.get("component")
+    if not isinstance(component, str) or not component:
+        mismatches.append(f"component: expected non-empty string, got {component!r}")
+    if mismatches:
+        raise RuntimeError("model_index mismatch: " + "; ".join(mismatches))
+
+
+def _validate_codebook_tensors(
+    tensors: dict[str, torch.Tensor],
+    *,
+    config: OrbitQuantConfig,
+    extra_weight_bits: set[int] | None = None,
+) -> set[int]:
+    grouped: dict[tuple[int, int], dict[str, torch.Tensor]] = {}
+    unexpected: list[str] = []
+    for name, tensor in tensors.items():
+        match = _CODEBOOK_KEY_RE.match(name)
+        if match is None:
+            unexpected.append(name)
+            continue
+        dim = int(match.group("dim"))
+        bits = int(match.group("bits"))
+        field = match.group("field")
+        grouped.setdefault((dim, bits), {})[field] = tensor
+    if unexpected:
+        raise RuntimeError(f"artifact codebook tensor mismatch: unexpected={unexpected}")
+    if not grouped:
+        raise RuntimeError("artifact codebook tensor mismatch: no codebooks found")
+
+    allowed_bits = {config.weight_bits, config.activation_bits}
+    if extra_weight_bits:
+        allowed_bits |= set(extra_weight_bits)
+    dims: set[int] = set()
+    mismatches: list[str] = []
+    for (dim, bits), fields in sorted(grouped.items()):
+        dims.add(dim)
+        if bits not in allowed_bits:
+            mismatches.append(f"dim{dim}_bits{bits}: unexpected bit width")
+            continue
+        missing = sorted({"centroids", "boundaries"} - set(fields))
+        if missing:
+            mismatches.append(f"dim{dim}_bits{bits}: missing {missing}")
+            continue
+        centroids = fields["centroids"].detach().cpu()
+        boundaries = fields["boundaries"].detach().cpu()
+        if centroids.dtype != torch.float32 or boundaries.dtype != torch.float32:
+            mismatches.append(f"dim{dim}_bits{bits}: expected float32 tensors")
+            continue
+        if tuple(centroids.shape) != (2**bits,):
+            mismatches.append(
+                f"dim{dim}_bits{bits}: centroids shape {tuple(centroids.shape)}"
+            )
+            continue
+        if tuple(boundaries.shape) != (2**bits - 1,):
+            mismatches.append(
+                f"dim{dim}_bits{bits}: boundaries shape {tuple(boundaries.shape)}"
+            )
+            continue
+        if not torch.isfinite(centroids).all() or not torch.isfinite(boundaries).all():
+            mismatches.append(f"dim{dim}_bits{bits}: non-finite values")
+            continue
+        if not torch.all(centroids[1:] > centroids[:-1]):
+            mismatches.append(f"dim{dim}_bits{bits}: centroids are not strictly sorted")
+        if boundaries.numel() and not torch.all(boundaries[1:] > boundaries[:-1]):
+            mismatches.append(f"dim{dim}_bits{bits}: boundaries are not strictly sorted")
+        if not torch.allclose(centroids, -torch.flip(centroids, dims=[0]), atol=1e-5):
+            mismatches.append(f"dim{dim}_bits{bits}: centroids are not symmetric")
+        expected_boundaries = (centroids[:-1] + centroids[1:]) / 2
+        if not torch.allclose(boundaries, expected_boundaries, atol=1e-6):
+            mismatches.append(f"dim{dim}_bits{bits}: boundaries are not midpoints")
+        expected_codebook = get_codebook(dim, bits, config.codebook_version)
+        if not torch.equal(centroids, expected_codebook.centroids):
+            mismatches.append(
+                f"dim{dim}_bits{bits}: centroids do not match codebook version "
+                f"{config.codebook_version}"
+            )
+        if not torch.equal(boundaries, expected_codebook.boundaries):
+            mismatches.append(
+                f"dim{dim}_bits{bits}: boundaries do not match codebook version "
+                f"{config.codebook_version}"
+            )
+
+    if mismatches:
+        raise RuntimeError("artifact codebook tensor mismatch: " + "; ".join(mismatches))
+    return dims
+
+
+def _is_power_of_two(value: int) -> bool:
+    return value > 0 and (value & (value - 1)) == 0
+
+
+def _validate_rotation_tensors(
+    tensors: dict[str, torch.Tensor], *, config: OrbitQuantConfig
+) -> set[int]:
+    grouped: dict[tuple[int, int, int], dict[str, torch.Tensor]] = {}
+    unexpected: list[str] = []
+    for name, tensor in tensors.items():
+        match = _ROTATION_KEY_RE.match(name)
+        if match is None:
+            unexpected.append(name)
+            continue
+        dim = int(match.group("dim"))
+        seed = int(match.group("seed"))
+        block = int(match.group("block"))
+        field = match.group("field")
+        grouped.setdefault((dim, seed, block), {})[field] = tensor
+    if unexpected:
+        raise RuntimeError(f"artifact rotation tensor mismatch: unexpected={unexpected}")
+    if not grouped:
+        raise RuntimeError("artifact rotation tensor mismatch: no rotations found")
+
+    dims: set[int] = set()
+    mismatches: list[str] = []
+    for (dim, seed, block), fields in sorted(grouped.items()):
+        dims.add(dim)
+        prefix = f"dim{dim}_seed{seed}_block{block}"
+        if seed != config.rotation_seed:
+            mismatches.append(f"{prefix}: unexpected rotation seed")
+        if config.block_size != "paper" and block != config.block_size:
+            mismatches.append(f"{prefix}: unexpected explicit block size")
+        if not _is_power_of_two(block) or dim % block != 0:
+            mismatches.append(f"{prefix}: invalid block size")
+        missing = sorted(
+            {"permutation", "inverse_permutation", "signs", "normalization"} - set(fields)
+        )
+        if missing:
+            mismatches.append(f"{prefix}: missing {missing}")
+            continue
+        permutation = fields["permutation"].detach().cpu().to(torch.long)
+        inverse = fields["inverse_permutation"].detach().cpu().to(torch.long)
+        signs = fields["signs"].detach().cpu()
+        normalization = fields["normalization"].detach().cpu().to(torch.float32)
+        expected_range = torch.arange(dim, dtype=torch.long)
+        if tuple(permutation.shape) != (dim,) or not torch.equal(
+            torch.sort(permutation).values, expected_range
+        ):
+            mismatches.append(f"{prefix}: permutation is not a valid permutation")
+        if tuple(inverse.shape) != (dim,) or not torch.equal(
+            torch.sort(inverse).values, expected_range
+        ):
+            mismatches.append(f"{prefix}: inverse permutation is not valid")
+        elif tuple(permutation.shape) == (dim,) and not torch.equal(
+            inverse[permutation], expected_range
+        ):
+            mismatches.append(f"{prefix}: inverse permutation does not invert permutation")
+        if tuple(signs.shape) != (dim,) or not torch.isin(
+            signs.to(torch.int8), torch.tensor([-1, 1], dtype=torch.int8)
+        ).all():
+            mismatches.append(f"{prefix}: signs must be +/-1")
+        if tuple(normalization.shape) != (1,) or not torch.allclose(
+            normalization, torch.tensor([1.0 / math.sqrt(block)], dtype=torch.float32)
+        ):
+            mismatches.append(f"{prefix}: normalization mismatch")
+        expected_rotation = get_rpbh_rotation(dim, seed=seed, block_size=block)
+        if not torch.equal(permutation, expected_rotation.permutation):
+            mismatches.append(f"{prefix}: permutation does not match runtime rotation")
+        if not torch.equal(inverse, expected_rotation.inverse_permutation):
+            mismatches.append(f"{prefix}: inverse does not match runtime rotation")
+        if not torch.equal(signs.to(torch.int8), expected_rotation.signs):
+            mismatches.append(f"{prefix}: signs do not match runtime rotation")
+
+    if mismatches:
+        raise RuntimeError("artifact rotation tensor mismatch: " + "; ".join(mismatches))
+    return dims
+
+
+def validate_orbitquant_artifact(
+    artifact_dir: str | Path,
+    *,
+    validate_checksums_enabled: bool = True,
+    validate_tensors: bool = True,
+) -> dict[str, Any]:
+    artifact_path = Path(artifact_dir)
+    validate_required_artifact_files(artifact_path)
+    model_index = json.loads((artifact_path / "model_index.json").read_text(encoding="utf-8"))
+    config = OrbitQuantConfig.from_dict(
+        json.loads((artifact_path / "quantization_config.json").read_text(encoding="utf-8"))
+    )
+    manifest = OrbitQuantManifest.from_dict(
+        json.loads((artifact_path / "orbitquant_manifest.json").read_text(encoding="utf-8"))
+    )
+    if validate_checksums_enabled:
+        validate_checksums(artifact_path, manifest.checksums)
+        sha256sums_entries = validate_sha256sums(
+            artifact_path,
+            required_paths=tuple(manifest.checksums) + _SHA256SUMS_REQUIRED_EXTRA_ENTRIES,
+        )
+    else:
+        sha256sums_entries = {}
+    _validate_config_manifest(config, manifest)
+    _validate_model_index(model_index, config=config, manifest=manifest)
+    expected_shapes = manifest.module_shapes
+    codebook_validation = "skipped"
+    rotation_validation = "skipped"
+    if validate_tensors:
+        state_dict = load_file(artifact_path / "model.safetensors")
+        missing = sorted(set(expected_shapes) - set(state_dict))
+        unexpected = sorted(set(state_dict) - set(expected_shapes))
+        shape_mismatches = {
+            name: {"expected": expected_shapes[name], "actual": list(state_dict[name].shape)}
+            for name in sorted(set(expected_shapes) & set(state_dict))
+            if expected_shapes[name] != list(state_dict[name].shape)
+        }
+        if missing or unexpected or shape_mismatches:
+            raise RuntimeError(
+                "artifact tensor shape mismatch: "
+                f"missing={missing}, unexpected={unexpected}, shape_mismatches={shape_mismatches}"
+            )
+        codebook_dims = _validate_codebook_tensors(
+            load_file(artifact_path / "orbitquant_codebooks.safetensors"),
+            config=config,
+            extra_weight_bits=set(manifest.module_bits.values()),
+        )
+        rotation_dims = _validate_rotation_tensors(
+            load_file(artifact_path / "orbitquant_rotations.safetensors"),
+            config=config,
+        )
+        if not rotation_dims.issubset(codebook_dims):
+            raise RuntimeError(
+                "artifact basis tensor mismatch: rotations without matching codebooks "
+                f"{sorted(rotation_dims - codebook_dims)}"
+            )
+        codebook_validation = "checked"
+        rotation_validation = "checked"
+
+    return {
+        "valid": True,
+        "artifact_dir": str(artifact_path),
+        "source_model_id": manifest.source_model_id,
+        "source_revision": manifest.source_revision,
+        "source_license": manifest.source_license,
+        "weight_bits": config.weight_bits,
+        "activation_bits": config.activation_bits,
+        "codebook_version": config.codebook_version,
+        "target_policy": config.target_policy,
+        "component": model_index["component"],
+        "runtime_mode": config.runtime_mode,
+        "activation_kernel_backend": config.activation_kernel_backend,
+        "activation_eps": config.activation_eps,
+        "adaln_group_size": manifest.adaln_group_size,
+        "quantization_device": manifest.quantization_device,
+        "weight_quantization_backend": manifest.weight_quantization_backend,
+        "quantization_staging_mode": manifest.quantization_staging_mode,
+        "tensor_count": len(expected_shapes),
+        "tensor_validation": "checked" if validate_tensors else "skipped",
+        "codebook_validation": codebook_validation,
+        "rotation_validation": rotation_validation,
+        "checksum_validation": "checked" if validate_checksums_enabled else "skipped",
+        "sha256sums_validation": "checked" if validate_checksums_enabled else "skipped",
+        "sha256sums_entry_count": len(sha256sums_entries),
+        "quantized_module_count": len(manifest.quantized_modules),
+        "adaln_module_count": len(manifest.adaln_modules),
+        "skipped_module_count": len(manifest.skipped_modules),
+        "required_files": list(_REQUIRED_ARTIFACT_FILES),
+        "checksums": manifest.checksums,
+    }
+
+
+def _module_list_mismatch(
+    name: str, expected: list[str], actual: list[str]
+) -> dict[str, Any] | None:
+    expected_set = set(expected)
+    actual_set = set(actual)
+    missing = sorted(expected_set - actual_set)
+    unexpected = sorted(actual_set - expected_set)
+    if not missing and not unexpected and len(expected) == len(actual):
+        return None
+    return {
+        "name": name,
+        "expected_count": len(expected),
+        "actual_count": len(actual),
+        "missing": missing,
+        "unexpected": unexpected,
+    }
+
+
+def validate_artifact_policy_inventory(
+    artifact_dir: str | Path,
+    inventory_path: str | Path,
+) -> dict[str, Any]:
+    artifact_path = Path(artifact_dir)
+    model_index = json.loads((artifact_path / "model_index.json").read_text(encoding="utf-8"))
+    config = OrbitQuantConfig.from_dict(
+        json.loads((artifact_path / "quantization_config.json").read_text(encoding="utf-8"))
+    )
+    manifest = OrbitQuantManifest.from_dict(
+        json.loads((artifact_path / "orbitquant_manifest.json").read_text(encoding="utf-8"))
+    )
+    return validate_policy_inventory_payloads(
+        artifact_label=str(artifact_path),
+        inventory_path=inventory_path,
+        model_index=model_index,
+        config=config,
+        manifest=manifest,
+    )
+
+
+def validate_policy_inventory_payloads(
+    *,
+    artifact_label: str,
+    inventory_path: str | Path,
+    model_index: dict[str, Any],
+    config: OrbitQuantConfig,
+    manifest: OrbitQuantManifest,
+) -> dict[str, Any]:
+    inventory_file = Path(inventory_path)
+    inventory = json.loads(inventory_file.read_text(encoding="utf-8"))
+    scalar_mismatches = [
+        mismatch
+        for key, expected, actual in (
+            ("manifest_target_policy", config.target_policy, manifest.target_policy),
+            ("source_model_id", manifest.source_model_id, inventory.get("source_model_id")),
+            ("target_policy", config.target_policy, inventory.get("target_policy")),
+            ("component", model_index.get("component"), inventory.get("component")),
+        )
+        if (mismatch := _mismatch(key, expected, actual)) is not None
+    ]
+    module_mismatches = [
+        mismatch
+        for mismatch in (
+            _module_list_mismatch(
+                "quantized_modules",
+                list(inventory.get("quantized_modules", [])),
+                manifest.quantized_modules,
+            ),
+            _module_list_mismatch(
+                "adaln_modules",
+                list(inventory.get("adaln_modules", [])),
+                manifest.adaln_modules,
+            ),
+            _module_list_mismatch(
+                "skipped_modules",
+                list(inventory.get("skipped_modules", [])),
+                manifest.skipped_modules,
+            ),
+        )
+        if mismatch is not None
+    ]
+    if scalar_mismatches or module_mismatches:
+        raise RuntimeError(
+            "artifact policy inventory mismatch: "
+            f"scalars={scalar_mismatches}, modules={module_mismatches}"
+        )
+    action_counts = inventory.get("action_counts") or {}
+    return {
+        "valid": True,
+        "artifact_dir": artifact_label,
+        "inventory_path": str(inventory_file),
+        "source_model_id": manifest.source_model_id,
+        "target_policy": manifest.target_policy,
+        "component": inventory.get("component"),
+        "load_mode": inventory.get("load_mode"),
+        "linear_module_count": inventory.get("linear_module_count"),
+        "action_counts": action_counts,
+        "quantized_module_count": len(manifest.quantized_modules),
+        "adaln_module_count": len(manifest.adaln_modules),
+        "skipped_module_count": len(manifest.skipped_modules),
+    }

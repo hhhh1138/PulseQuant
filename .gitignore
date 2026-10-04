@@ -1,0 +1,29 @@
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+.ssh/
+.aws/
+.netrc
+# Generated/model data (review before deliberately adding any)
+runs/
+outputs/
+checkpoints/
+# Vendored third-party source and licenses are intentionally tracked.
+source-records/
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.mp4
+*.log
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.cache/
+.DS_Store

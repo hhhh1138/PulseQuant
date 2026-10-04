@@ -1,0 +1,626 @@
+# Modified for PulseQuant: external video-benchmark integration removed.
+from __future__ import annotations
+
+from typing import Any
+
+from orbitquant.artifacts.manifest import OrbitQuantManifest
+from orbitquant.eval.native_settings import NativeSuite, list_native_suites
+from orbitquant.eval.prompts import default_prompt_payload
+
+_GENEVAL_METRICS = (
+    "geneval_overall",
+    "geneval_per_task_single_object",
+    "geneval_per_task_two_object",
+    "geneval_per_task_counting",
+    "geneval_per_task_colors",
+    "geneval_per_task_position",
+    "geneval_per_task_color_attr",
+)
+_RELEASE_METRICS_BY_MODEL = {
+    "black-forest-labs/FLUX.1-schnell": ("GenEval", _GENEVAL_METRICS),
+    "Tongyi-MAI/Z-Image-Turbo": ("GenEval", _GENEVAL_METRICS),
+}
+
+
+def _comparison_assets(checksums: dict[str, str]) -> list[str]:
+    assets = []
+    for path in checksums:
+        parts = path.split("/")
+        if len(parts) != 2 or parts[0] != "assets":
+            continue
+        name = parts[1].lower()
+        if name.endswith("_generation_comparison_matrix.webp"):
+            assets.append(path)
+    assets = sorted(assets)
+    for preferred in (
+        "assets/image_generation_comparison_matrix.webp",
+        "assets/video_generation_comparison_matrix.webp",
+    ):
+        if preferred in assets:
+            return [preferred]
+    return assets[:1]
+
+
+def _artifact_slug(model_id: str, bits: str) -> str:
+    return f"{model_id.rsplit('/', maxsplit=1)[-1]}-OrbitQuant-{bits}"
+
+
+def _native_suite_for_source_model(source_model_id: str) -> NativeSuite | None:
+    for suite in list_native_suites():
+        if suite.model_id == source_model_id:
+            return suite
+    return None
+
+
+def _install_snippet() -> str:
+    return "\n".join(
+        [
+            "```bash",
+            "pip install \"orbitquant[hf,kernels]>=0.9.1\"",
+            "```",
+        ]
+    )
+
+
+def _usage_snippet(source_model_id: str, bits: str) -> str:
+    placeholder_repo = f"WaveCut/{_artifact_slug(source_model_id, bits)}"
+    suite = _native_suite_for_source_model(source_model_id)
+    lines = [
+        "```python",
+        "import torch",
+    ]
+    if suite is not None and suite.frames is not None:
+        lines.append("from diffusers.utils import export_to_video")
+    lines.extend(
+        [
+            "from huggingface_hub import snapshot_download",
+            "from orbitquant import load_quantized_pipeline_from_artifact",
+            "",
+            f'artifact_id = "{placeholder_repo}"',
+            "",
+            "artifact_dir = snapshot_download(artifact_id, repo_type=\"model\")",
+            "pipe = load_quantized_pipeline_from_artifact(",
+            "    artifact_dir,",
+            "    torch_dtype=torch.bfloat16,",
+            "    runtime_mode=\"auto_fused\",",
+            ")",
+            "pipe.enable_model_cpu_offload(device=\"cuda\")",
+            "",
+        ]
+    )
+    if suite is None:
+        lines.extend(
+            [
+                "result = pipe(",
+                "    prompt=\"A precise product photo of a red ceramic mug on a wooden desk\",",
+                ")",
+                "```",
+            ]
+        )
+        return "\n".join(lines)
+
+    if suite.frames is None:
+        output_name = {
+            "black-forest-labs/FLUX.2-klein-4B": "flux2-klein-orbitquant.png",
+            "black-forest-labs/FLUX.1-schnell": "flux1-schnell-orbitquant.png",
+            "Tongyi-MAI/Z-Image-Turbo": "z-image-orbitquant.png",
+        }.get(source_model_id, "orbitquant.png")
+        lines.extend(
+            [
+                "image = pipe(",
+                "    prompt=\"A precise product photo of a red ceramic mug on a wooden desk\",",
+                f"    height={suite.height},",
+                f"    width={suite.width},",
+                f"    num_inference_steps={suite.steps},",
+                f"    guidance_scale={suite.guidance},",
+                ").images[0]",
+                f'image.save("{output_name}")',
+                "```",
+            ]
+        )
+        return "\n".join(lines)
+
+    export_fps = suite.export_fps or 16
+    lines.extend(
+        [
+            "frames = pipe(",
+            "    prompt=\"A cinematic shot of a small robot walking through a neon market\",",
+            f"    height={suite.height},",
+            f"    width={suite.width},",
+            f"    num_frames={suite.frames},",
+            f"    num_inference_steps={suite.steps},",
+            f"    guidance_scale={suite.guidance},",
+            ").frames[0]",
+            f'export_to_video(frames, "wan-orbitquant.mp4", fps={export_fps})',
+            "```",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def _on_the_fly_conversion_snippet(source_model_id: str) -> str:
+    return "\n".join(
+        [
+            "```python",
+            "import torch",
+            "import orbitquant",
+            "from diffusers import DiffusionPipeline",
+            "from orbitquant import (",
+            "    OrbitQuantConfig,",
+            "    build_diffusers_pipeline_quantization_config,",
+            ")",
+            "",
+            "qconfig = build_diffusers_pipeline_quantization_config(",
+            "    OrbitQuantConfig(target_policy=\"auto\"),",
+            "    components=\"transformer\",",
+            ")",
+            "pipe = DiffusionPipeline.from_pretrained(",
+            f'    "{source_model_id}",',
+            "    quantization_config=qconfig,",
+            "    torch_dtype=torch.bfloat16,",
+            ")",
+            "pipe.enable_model_cpu_offload()",
+            "```",
+        ]
+    )
+
+
+def _native_settings_section(source_model_id: str) -> list[str]:
+    suite = _native_suite_for_source_model(source_model_id)
+    if suite is None:
+        return []
+    output = "video" if suite.frames is not None else "image"
+    if suite.note.startswith("Extra target"):
+        scope = (suite.note[:1].lower() + suite.note[1:]).rstrip(".")
+    elif suite.frames is not None:
+        scope = "paper video target"
+    else:
+        scope = "paper image target"
+    rows = [
+        ("Pipeline", f"`{suite.pipeline}`"),
+        ("Resolution", f"`{suite.width}x{suite.height}`"),
+    ]
+    if suite.frames is not None:
+        rows.append(("Frames", f"`{suite.frames}`"))
+    rows.extend(
+        [
+            ("Inference steps", f"`{suite.steps}`"),
+            ("Guidance scale", f"`{suite.guidance}`"),
+        ]
+    )
+    if suite.export_fps is not None:
+        rows.append(("Export FPS", f"`{suite.export_fps}`"))
+    rows.extend(
+        [
+            ("Output", output),
+            ("Scope", scope),
+        ]
+    )
+
+    lines = [
+        "## Native Settings",
+        "",
+        "Use these settings when comparing this artifact against the BF16 source "
+        "model or the visual assets below:",
+        "",
+        "| Setting | Value |",
+        "| --- | --- |",
+    ]
+    lines.extend(f"| {name} | {value} |" for name, value in rows)
+    lines.append("")
+    return lines
+
+
+def _latest_metrics_by_split(
+    benchmark_summary: dict[str, Any] | None,
+) -> dict[str, dict[str, Any]]:
+    if not isinstance(benchmark_summary, dict):
+        return {}
+    split_payload = benchmark_summary.get("metrics")
+    if not isinstance(split_payload, dict):
+        return {}
+    metrics_by_split: dict[str, dict[str, Any]] = {}
+    for split in ("original", "orbitquant"):
+        latest = split_payload.get(split, {}).get("latest")
+        if not isinstance(latest, dict):
+            continue
+        metrics = latest.get("metrics")
+        if isinstance(metrics, dict):
+            metrics_by_split[split] = metrics
+    return metrics_by_split
+
+
+def _format_metric_value(value: Any) -> str:
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        return ""
+    return f"`{value:.4g}`"
+
+
+def _release_metric_rows(
+    source_model_id: str,
+    benchmark_summary: dict[str, Any] | None,
+) -> tuple[str | None, list[tuple[str, str, str]]]:
+    release = _RELEASE_METRICS_BY_MODEL.get(source_model_id)
+    if release is None:
+        return None, []
+    release_metric, metric_names = release
+    metrics_by_split = _latest_metrics_by_split(benchmark_summary)
+    rows = []
+    for metric in metric_names:
+        original = metrics_by_split.get("original", {}).get(metric)
+        orbitquant = metrics_by_split.get("orbitquant", {}).get(metric)
+        if original is None and orbitquant is None:
+            continue
+        rows.append(
+            (
+                metric,
+                _format_metric_value(original),
+                _format_metric_value(orbitquant),
+            )
+        )
+    return release_metric, rows
+
+
+def _validation_status_section(
+    source_model_id: str,
+    benchmark_summary: dict[str, Any] | None,
+) -> list[str]:
+    release_metric, release_rows = _release_metric_rows(source_model_id, benchmark_summary)
+    release_line = (
+        f"- Release-grade {release_metric} metrics: included below."
+        if release_metric
+        and release_rows
+        else f"- Release-grade {release_metric} metrics: not included in this artifact."
+        if release_metric
+        else "- Release-grade paper metrics: not applicable to this extra target."
+    )
+    lines = [
+        "## Validation Status",
+        "",
+        "- Native BF16-vs-OrbitQuant comparison: included when the visual matrix "
+        "below is present.",
+        release_line,
+        "- The model card reports artifact-level validation status only.",
+        "",
+    ]
+    if release_rows:
+        lines.extend(
+            [
+                f"### Release-Grade {release_metric} Metrics",
+                "",
+                (
+                    "GenEval `geneval_overall` follows upstream GenEval semantics: "
+                    "average over task scores."
+                    if release_metric == "GenEval"
+                    else "Metrics follow the upstream definitions."
+                ),
+                "",
+                "| Metric | BF16 source | OrbitQuant |",
+                "| --- | ---: | ---: |",
+            ]
+        )
+        lines.extend(
+            f"| `{metric}` | {original or '-'} | {orbitquant or '-'} |"
+            for metric, original, orbitquant in release_rows
+        )
+        lines.append("")
+    return lines
+
+
+def _native_validation_proof_section(
+    benchmark_summary: dict[str, Any] | None,
+) -> list[str]:
+    if not isinstance(benchmark_summary, dict):
+        return []
+    proof = benchmark_summary.get("native_smoke")
+    if not isinstance(proof, dict):
+        return []
+
+    rows: list[tuple[str, str]] = []
+    comparison_asset_path = proof.get("comparison_asset_path")
+    if isinstance(comparison_asset_path, str) and comparison_asset_path:
+        rows.append(("Comparison matrix", f"`{comparison_asset_path}`"))
+
+    paired_count = proof.get("paired_prompt_seed_count")
+    if paired_count is not None:
+        rows.append(("Paired prompt/seed count", f"`{paired_count}`"))
+
+    splits = proof.get("splits")
+    if isinstance(splits, dict):
+        for split, label in (
+            ("original", "BF16 source"),
+            ("orbitquant", "OrbitQuant"),
+        ):
+            split_payload = splits.get(split)
+            if not isinstance(split_payload, dict):
+                continue
+            for key, name in (
+                ("generated_samples", "generated samples"),
+                ("generated_frames", "generated frames"),
+                ("nonempty_output_count", "nonempty outputs"),
+            ):
+                value = split_payload.get(key)
+                if value is not None:
+                    rows.append((f"{label} {name}", f"`{value}`"))
+
+    if not rows:
+        return []
+
+    lines = [
+        "## Native Validation Evidence",
+        "",
+        "The compact benchmark summary records native BF16-vs-OrbitQuant "
+        "evidence for the comparison matrix below. Detailed per-sample generation "
+        "records are retained outside this compact artifact.",
+        "",
+        "| Evidence | Value |",
+        "| --- | --- |",
+    ]
+    lines.extend(f"| {name} | {value} |" for name, value in rows)
+    lines.append("")
+    return lines
+
+
+def _comparison_prompt_section(
+    source_model_id: str,
+    benchmark_summary: dict[str, Any] | None,
+) -> list[str]:
+    suite = _native_suite_for_source_model(source_model_id)
+    if suite is None or suite.frames is not None or not isinstance(benchmark_summary, dict):
+        return []
+    proof = benchmark_summary.get("native_smoke")
+    if not isinstance(proof, dict):
+        return []
+    prompt_payload = default_prompt_payload(
+        {
+            "flux2-native": "flux2",
+            "flux1-schnell-native": "flux",
+            "z-image-native": "z_image",
+        }[suite.name]
+    )
+    prompts = prompt_payload["prompts"]
+    if proof.get("paired_prompt_seed_count") != len(prompts):
+        return []
+    paired_keys = proof.get("paired_prompt_seed_keys")
+    if not isinstance(paired_keys, list):
+        return []
+    paired_prompt_ids = {
+        str(item[2])
+        for item in paired_keys
+        if isinstance(item, list) and len(item) == 3
+    }
+    if paired_prompt_ids != {str(prompt["id"]) for prompt in prompts}:
+        return []
+
+    required_text = {
+        "english-text-rendering": "ORBIT QUANT; DATA WITHOUT CALIBRATION",
+        "cyrillic-text-rendering": "КВАНТОВАЯ ОРБИТА; МОСКВА 2049; КВАНТОВАНИЕ",
+        "style-heavy": "量子の軌道; 東京の未来",
+        "occlusion-reflection": "量子轨道; 未来之城",
+    }
+    lines = [
+        "## Comparison Prompt Set",
+        "",
+        f"The matrix uses all ten prompts from `{prompt_payload['prompt_pack']}` at "
+        f"`{suite.width}x{suite.height}`. BF16 and OrbitQuant use the same seed for "
+        "each row.",
+        "",
+        "| # | Stress case | Exact required text |",
+        "| ---: | --- | --- |",
+    ]
+    for index, prompt in enumerate(prompts, start=1):
+        text = required_text.get(str(prompt["id"]), "-")
+        lines.append(f"| {index} | {prompt['title']} | {text} |")
+    lines.extend(
+        [
+            "",
+            "<details>",
+            "<summary>Exact comparison prompts</summary>",
+            "",
+        ]
+    )
+    for index, prompt in enumerate(prompts, start=1):
+        lines.append(f"{index}. **{prompt['title']}**: {prompt['prompt']}")
+    lines.extend(["", "</details>", ""])
+    return lines
+
+
+def _observed_quality_section(
+    benchmark_summary: dict[str, Any] | None,
+) -> list[str]:
+    if not isinstance(benchmark_summary, dict):
+        return []
+    observed_quality = benchmark_summary.get("observed_quality")
+    if not isinstance(observed_quality, str) or not observed_quality.strip():
+        return []
+    return [
+        "## Observed Quality",
+        "",
+        f"**Warning:** {observed_quality.strip()}",
+        "",
+    ]
+
+
+def render_model_card(
+    manifest: OrbitQuantManifest,
+    *,
+    benchmark_summary: dict[str, Any] | None = None,
+) -> str:
+    data = manifest.to_dict()
+    bits = f"W{data['weight_bits']}A{data['activation_bits']}"
+    comparison_assets = _comparison_assets(data["checksums"])
+    native_settings_lines = _native_settings_section(data["source_model_id"])
+    validation_status_lines = _validation_status_section(
+        data["source_model_id"], benchmark_summary
+    )
+    native_validation_proof_lines = _native_validation_proof_section(benchmark_summary)
+    comparison_prompt_lines = _comparison_prompt_section(
+        data["source_model_id"], benchmark_summary
+    )
+    observed_quality_lines = _observed_quality_section(benchmark_summary)
+    adaln_group_size = int(data.get("adaln_group_size", 64))
+    module_bit_lines: list[str] = []
+    module_bits = data.get("module_bits") or {}
+    if module_bits:
+        bit_counts = {int(data["weight_bits"]): len(data["quantized_modules"])}
+        for module_bits_value in module_bits.values():
+            base_bits = int(data["weight_bits"])
+            bit_counts[base_bits] -= 1
+            override_bits = int(module_bits_value)
+            bit_counts[override_bits] = bit_counts.get(override_bits, 0) + 1
+        widths = ", ".join(
+            f"W{width}: {count}"
+            for width, count in sorted(bit_counts.items())
+            if count
+        )
+        module_bit_lines.append(f"- Module weight-width counts: `{widths}`")
+    adaln_default_note = (
+        "- AdaLN group-size note: paper default."
+        if adaln_group_size == 64
+        else "- AdaLN group-size note: non-paper-default setting."
+    )
+    comparison_lines = []
+    if comparison_assets:
+        comparison_lines.extend(
+            [
+                "## Visual Comparison",
+                "",
+                "The following assets are stored in this artifact and compare the BF16 "
+                "base generation against the OrbitQuant generation with the same prompt "
+                "and seed.",
+                "",
+            ]
+        )
+        for path in comparison_assets:
+            comparison_lines.append(f"![{path}]({path})")
+            comparison_lines.append("")
+    else:
+        comparison_lines.extend(
+            [
+                "## Visual Comparison",
+                "",
+                "Validation status: comparison asset missing. This artifact does "
+                "not include a generation comparison matrix.",
+                "",
+            ]
+        )
+
+    return "\n".join(
+        [
+            "---",
+            f"base_model: {data['source_model_id']}",
+            f"license: {data['source_license']}",
+            "tags:",
+            "- orbitquant",
+            "- quantized",
+            "- diffusers",
+            "- diffusion-transformer",
+            "---",
+            "",
+            f"# {data['source_model_id']} OrbitQuant {bits}",
+            "",
+            "This repository contains a compact OrbitQuant transformer-component "
+            "artifact for the source Diffusers model listed above. It is intended "
+            "to be loaded into the original pipeline, not used as a standalone "
+            "Diffusers pipeline repository.",
+            "",
+            "OrbitQuant is a calibration-free post-training quantization method "
+            "for image and video diffusion transformers. This artifact keeps the "
+            "text encoders, VAE, embeddings, timestep MLP, and final heads in the "
+            "source precision by default and replaces the transformer linear "
+            "projections with OrbitQuant modules.",
+            "",
+            "## Usage",
+            "",
+            "Install OrbitQuant and the Hugging Face runtime dependencies:",
+            "",
+            _install_snippet(),
+            "",
+            "Download this model repository as an OrbitQuant artifact, then load "
+            "the source Diffusers pipeline with the quantized component patched in:",
+            "",
+            _usage_snippet(data["source_model_id"], bits),
+            "",
+            "### Convert the source checkpoint on load",
+            "",
+            "For a safetensors source checkpoint, OrbitQuant can row-stream the "
+            "denoiser into packed weights through the normal Diffusers loader. "
+            "Use sequential offload by replacing the final call with "
+            "`pipe.enable_sequential_cpu_offload()`.",
+            "",
+            _on_the_fly_conversion_snippet(data["source_model_id"]),
+            "",
+            "`runtime_mode=\"auto_fused\"` is the default optimized runtime. On "
+            "CUDA, the `kernels` extra provides the Triton packed fallback; a "
+            "locally built native CUDA package is preferred automatically when "
+            "installed. On MPS, build and install the native Metal package from "
+            "the OrbitQuant source tree. See the [OrbitQuant runtime instructions]"
+            "(https://github.com/iamwavecut/OrbitQuant/blob/main/docs/"
+            "kernel-audit.md#local-native-package). Use "
+            "`runtime_mode=\"dequant_bf16\"` only as an explicit compatibility/"
+            "debug reference path.",
+            "",
+            *native_settings_lines,
+            *validation_status_lines,
+            *native_validation_proof_lines,
+            *comparison_prompt_lines,
+            "## Quantization",
+            "",
+            f"- Method: `{data['quant_method']}`",
+            f"- Bits: `{bits}`",
+            *module_bit_lines,
+            f"- Runtime mode: `{data['runtime_mode']}`",
+            f"- Activation kernel backend: `{data['activation_kernel_backend']}`",
+            f"- Activation normalization epsilon: `{data['activation_eps']}`",
+            f"- Quantization device: `{data['quantization_device']}`",
+            f"- Weight quantization backend: `{data['weight_quantization_backend']}`",
+            f"- Target policy: `{data['target_policy']}`",
+            f"- AdaLN policy: `{data['adaln_policy']}`",
+            f"- AdaLN group size: `{adaln_group_size}`",
+            adaln_default_note,
+            f"- Rotation: `{data['rotation']}`",
+            f"- Rotation seed: `{data['rotation_seed']}`",
+            f"- Block size: `{data['block_size']}`",
+            f"- Block size policy: `{data['block_size_policy']}`",
+            f"- Codebook: `{data['codebook']}`",
+            f"- Codebook version: `{data['codebook_version']}`",
+            f"- Quantized transformer modules: `{len(data['quantized_modules'])}`",
+            f"- AdaLN INT4 modules: `{len(data['adaln_modules'])}`",
+            f"- Skipped modules: `{len(data['skipped_modules'])}`",
+            "- Calibration data: none",
+            "- Text encoders and VAE: left in source precision by default",
+            "",
+            *observed_quality_lines,
+            *comparison_lines,
+            "## Source",
+            "",
+            f"- Model: `{data['source_model_id']}`",
+            f"- Revision: `{data['source_revision']}`",
+            f"- Source license: `{data['source_license']}`",
+            "- OrbitQuant paper: https://arxiv.org/abs/2607.02461",
+            "",
+            "## Artifact Files",
+            "",
+            "- `model.safetensors`: packed OrbitQuant/INT4 module tensors.",
+            "- `quantization_config.json`: serialized OrbitQuant runtime settings.",
+            "- `orbitquant_manifest.json`: source provenance, policies, module lists, "
+            "and checksums.",
+            "- `orbitquant_codebooks.safetensors`: Lloyd-Max codebooks.",
+            "- `orbitquant_rotations.safetensors`: deterministic RPBH rotation metadata.",
+            "",
+            "## Limitations",
+            "",
+            "- This is a transformer-component artifact; load it into the source "
+            "pipeline as shown above.",
+            "- Guaranteed on-the-fly bounded-memory conversion requires a "
+            "safetensors source checkpoint. Unknown architectures have structural "
+            "coverage only and require policy inspection plus quality validation.",
+            "- CUDA and MPS `auto_fused` inference requires a packed matmul kernel "
+            "and fails loudly when the required kernel is unavailable. The explicit "
+            "`dequant_bf16` reference mode materializes dequantized weights before "
+            "BF16 matmul.",
+            "- Quality depends on the source model and bit setting. Very low-bit "
+            "settings can degrade prompt following or visual detail.",
+            "",
+        ]
+    )
