@@ -2,7 +2,13 @@
 
 **Propagation-Guided Subspace Correction for 4-Bit Video Diffusion Transformers**
 
-[Paper](https://arxiv.org/abs/2609.33384) | [Hugging Face](https://huggingface.co/yutongwang1012/PulseQuant) | [Quick Start](#quick-start) 
+<p align="center">
+  <a href="https://ernie-research.github.io/NAVA"><img src="https://img.shields.io/badge/Project-Page-1e88e5?style=flat-square&logo=googlechrome&logoColor=white" alt="Project Page"></a>
+  <a href="https://arxiv.org/abs/2609.33384"><img src="https://img.shields.io/badge/arXiv-Paper-B31B1B?style=flat-square&logo=arxiv&logoColor=white" alt="arXiv"></a>
+  <a href="https://huggingface.co/yutongwang1012/PulseQuant"><img src="https://img.shields.io/badge/%F0%9F%A4%97_HuggingFace-Models-FFD21E?style=flat-square" alt="HuggingFace Models"></a>
+  <a href="#quick-start"><img src="https://img.shields.io/badge/Quick_Start-Get_Started-2563eb?style=flat-square" alt="Quick Start"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-4c1?style=flat-square" alt="License"></a>
+</p>
 
 PulseQuant is a post-training quantization method for video diffusion transformers.
 This repository provides W4A4 and W4A6 calibration and inference for Wan 2.1,
